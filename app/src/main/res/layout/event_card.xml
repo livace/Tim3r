@@ -55,7 +55,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-50dp"
+                android:layout_marginTop="-58dp"
                 android:text="Начать"
                 android:layout_gravity="right"
                 android:layout_marginRight="@dimen/margin_normal"
