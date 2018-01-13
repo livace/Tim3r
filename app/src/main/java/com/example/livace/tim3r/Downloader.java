@@ -20,54 +20,26 @@ import java.util.ArrayList;
  * Created by livace on 11.01.2018.
  */
 
-public class DownloadCitiesTask extends android.os.AsyncTask<String, Void, ArrayList<City>> {
-    private static final String TAG = DownloadCitiesTask.class.getCanonicalName();
+public class Downloader extends android.os.AsyncTask<String, Void, String> {
+    private static final String TAG = Downloader.class.getCanonicalName();
 
-    private static final String URL = "https://kudago.com/public-api/v1.3/locations/";
-
-    public DownloadCitiesTask(OnCompleteListener mOnCompleteListener) {
+    public Downloader(OnCompleteListener mOnCompleteListener) {
         this.mOnCompleteListener = mOnCompleteListener;
     }
 
     @Override
-    protected ArrayList<City> doInBackground(String... strings) {
-        String file = downloadFile(URL);
-        if (file == null) {
+    protected String doInBackground(String... strings) {
+        if (strings == null || strings[0] == null) {
             return null;
         }
 
-        Log.e(TAG, file);
+        String url = strings[0];
 
-        JSONArray jsonArray = null;
-
-        try {
-            jsonArray = new JSONArray(file);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (jsonArray == null) {
-            return null;
-        }
-
-        ArrayList<City> result = new ArrayList<>();
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String name = jsonObject.getString("name");
-                String slug = jsonObject.getString("slug");
-                result.add(new City(name, slug));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
+        return downloadFile(url);
     }
 
-    private final OnCompleteListener mOnCompleteListener;
 
-    private String downloadFile(String stringUrl) {
+    private static String downloadFile(String stringUrl) {
         String result = null;
 
         InputStream is = null;
@@ -109,18 +81,18 @@ public class DownloadCitiesTask extends android.os.AsyncTask<String, Void, Array
         return result;
     }
 
-    interface OnCompleteListener{
-        void onComplete(ArrayList<City> cities);
+    private final OnCompleteListener mOnCompleteListener;
+
+    interface OnCompleteListener {
+        void onComplete(String result);
     }
 
     @Override
-    protected void onPostExecute(ArrayList<City> cities) {
-        super.onPostExecute(cities);
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
 
-        if (cities != null) {
-            if (mOnCompleteListener != null) {
-                mOnCompleteListener.onComplete(cities);
-            }
+        if (mOnCompleteListener != null) {
+            mOnCompleteListener.onComplete(result);
         }
     }
 }
