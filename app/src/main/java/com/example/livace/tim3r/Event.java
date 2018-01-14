@@ -17,6 +17,7 @@ public class Event {
     public Event(EventType type, Date begin, Date end) {
         this.type = type;
         this.begin = begin;
+        this.day = Days.get
         this.end = end;
     }
 
