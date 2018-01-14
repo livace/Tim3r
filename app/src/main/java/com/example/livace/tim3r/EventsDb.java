@@ -19,7 +19,7 @@ public class EventsDb extends SQLiteOpenHelper {
                 + "title text,"
                 + "timeBegin integer,"
                 + "timeEnd integer,"
-                + "discription text,"
+                + "description text,"
                 + "image blob,"
                 + "city text,"
                 + "type integer" + ");");
