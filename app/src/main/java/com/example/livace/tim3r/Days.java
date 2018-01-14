@@ -10,18 +10,20 @@ import java.util.Set;
  */
 
 public class Days {
-    private Map<Long, Day> days = new HashMap<>();
+    private final static Map<Long, Day> days = new HashMap<>();
 
-    private Day createDay(long timeStamp) {
+    private static Day createDay(long timeStamp) {
         long date = Utility.getDayFromTimeStamp(timeStamp);
         return new Day(date);
     }
 
-    public Day getDay(long timeStamp) {
+    public static Day getDay(long timeStamp) {
         long date = Utility.getDayFromTimeStamp(timeStamp);
         if (days.containsKey(date)) {
             return days.get(date);
         }
-        return createDay(timeStamp);
+        Day day = createDay(timeStamp);
+        days.put(date, day);
+        return day;
     }
 }

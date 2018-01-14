@@ -1,5 +1,6 @@
 package com.example.livace.tim3r;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import java.util.Date;
@@ -10,17 +11,25 @@ import java.util.Date;
 
 public class Event {
     private EventType type;
-    private Date begin;
-    private Date end;
+    private Long timeBegin;
+    private Long timeEnd;
     private Day day;
+    private String title;
+    private String description;
+    private Bitmap image;
+    private City city;
 
-    public Event(EventType type, Date begin, Date end) {
+    public Event(EventType type, Long timeBegin, Long timeEnd, Day day, String title, String description, Bitmap image, City city) {
         this.type = type;
-        this.begin = begin;
-        this.day = Days.get
-        this.end = end;
+        this.timeBegin = timeBegin;
+        this.timeEnd = timeEnd;
+        this.day = Days.getDay(timeBegin);
+        this.day = day;
+        this.title = title;
+        this.description = description;
+        this.image = image;
+        this.city = city;
     }
-
     @Override
     public int hashCode() {
         int result = begin.hashCode();
