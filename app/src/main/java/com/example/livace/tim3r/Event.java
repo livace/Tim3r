@@ -19,12 +19,17 @@ public class Event {
     private Bitmap image;
     private City city;
 
-    public Event(EventType type, Long timeBegin, Long timeEnd, Day day, String title, String description, Bitmap image, City city) {
+    public Event(EventType type,
+                 Long timeBegin,
+                 Long timeEnd,
+                 String title,
+                 String description,
+                 Bitmap image,
+                 City city) {
         this.type = type;
         this.timeBegin = timeBegin;
         this.timeEnd = timeEnd;
         this.day = Days.getDay(timeBegin);
-        this.day = day;
         this.title = title;
         this.description = description;
         this.image = image;
@@ -32,8 +37,8 @@ public class Event {
     }
     @Override
     public int hashCode() {
-        int result = begin.hashCode();
-        result = result * 100007 + end.hashCode();
+        int result = timeBegin.hashCode();
+        result = result * 100007 + timeEnd.hashCode();
         return result;
     }
 }
