@@ -1,6 +1,5 @@
 package com.example.livace.tim3r;
 
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import org.json.JSONArray;
