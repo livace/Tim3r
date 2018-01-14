@@ -1,4 +1,4 @@
-package CrazyDream.Tim3r;
+package com.example.livace.tim3r;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by CrazyDream on 14.01.2018.
  */
-
 public class EventsDb extends SQLiteOpenHelper {
 
     public EventsDb(Context context) {
@@ -30,6 +29,4 @@ public class EventsDb extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 
     }
-
-
 }
