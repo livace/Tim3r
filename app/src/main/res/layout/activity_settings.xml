@@ -19,25 +19,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="@dimen/margin_normal"-->
-            <!--android:layout_marginEnd="@dimen/margin_normal"-->
-            <!--android:layout_marginStart="@dimen/margin_normal"-->
-            <!--android:layout_marginTop="@dimen/margin_normal"-->
-            <!--android:hint="Имя"-->
-            <!--android:textSize="@dimen/text_size_login_form" />-->
 
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="@dimen/margin_normal"-->
-            <!--android:layout_marginEnd="@dimen/margin_normal"-->
-            <!--android:layout_marginStart="@dimen/margin_normal"-->
-            <!--android:layout_marginTop="@dimen/margin_normal"-->
-            <!--android:hint="Город"-->
-            <!--android:textSize="@dimen/text_size_login_form" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:hint="Имя:"
+                android:textSize="@dimen/text_size_login_form" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_login_form" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="0dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:hint="Город:"
+                android:textSize="@dimen/text_size_login_form" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_login_form" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Интересы"
+            android:textSize="@dimen/text_size_login_form" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Оповещения"
+            android:textSize="@dimen/text_size_login_form" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Сохранить"
+            android:textSize="@dimen/text_size_login_form"
+            />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
