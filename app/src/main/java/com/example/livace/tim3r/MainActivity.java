@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextView = (TextView) findViewById(R.id.cities);
         mCitiesList = new ArrayList<>();
         mEventTypes = new ArrayList<>();
 
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     text.append(eventType.id).append(":").append(eventType.name).append(':')
                             .append(eventType.slug).append('\n');
                 }
-                mTextView.setText(text.toString());
+//                mTextView.setText(text.toString());
             }
         }).execute(EventType.API_URL);
     }
