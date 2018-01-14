@@ -70,5 +70,6 @@ public class MainActivity extends AppCompatActivity {
 //                mTextView.setText(text.toString());
             }
         }).execute(EventType.API_URL);
+
     }
 }
