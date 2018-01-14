@@ -68,5 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).execute(EventType.API_URL);
+
     }
 }
