@@ -21,8 +21,6 @@ public class EventType implements Comparable<EventType>{
     public final String name;
     public final String slug;
 
-
-
     public EventType(Integer id, String name, String slug) {
         this.id = id;
         this.name = name;
@@ -49,5 +47,10 @@ public class EventType implements Comparable<EventType>{
     @Override
     public int compareTo(@NonNull EventType eventType) {
         return this.name.compareTo(eventType.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

@@ -13,13 +13,19 @@ public class Day {
     private Set<Event> events = new HashSet<>();
     private Set<Event> promotedEvents = new HashSet<>();
 
-    private Date date;
+    private long date;
+
+    public Day(long date) {
+        this.date = date;
+    }
 
     public void removeEvent(Event event) {
+        // TODO: Remove from DB!!!
         events.add(event);
     }
 
     public void addEvent(Event event) {
+        // TODO: Add to DB!!!
         events.remove(event);
     }
 
@@ -29,5 +35,10 @@ public class Day {
 
     public void removePromotedEvent(Event event) {
         promotedEvents.remove(event);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) date;
     }
 }
