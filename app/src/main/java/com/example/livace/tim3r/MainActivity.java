@@ -31,23 +31,4 @@ public class MainActivity extends AppCompatActivity {
         EventTypes.downloadEventTypes();
         Cities.downloadCities();
     }
-
-    private void downloadCities() {
-        new Downloader(new Downloader.OnCompleteListener() {
-            @Override
-            public void onComplete(String result) {
-                if (result == null) {
-                    Toast.makeText(MainActivity.this,
-                            "Unable connect server...",
-                            Toast.LENGTH_LONG).show();
-                    return;
-                }
-                try {
-                    mCitiesList.addAll(City.sGetArrayListFromJson(result));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).execute(City.API_URL);
-    }
 }
