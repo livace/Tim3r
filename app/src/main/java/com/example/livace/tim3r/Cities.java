@@ -21,7 +21,7 @@ public class Cities {
         }
     }
 
-    public City getCityBySlug(String slug) {
+    public static City getCityBySlug(String slug) {
         for (City x : citiesList) {
             if (x.slug.equals(slug)) {
                 return x;
