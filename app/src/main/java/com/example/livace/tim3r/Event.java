@@ -18,13 +18,14 @@ public class Event {
     private String description;
     private Bitmap image;
     private City city;
+    private String imageUrl;
 
     public Event(EventType type,
                  Long timeBegin,
                  Long timeEnd,
                  String title,
                  String description,
-                 Bitmap image,
+                 String imageUrl,
                  City city) {
         this.type = type;
         this.timeBegin = timeBegin;
@@ -32,7 +33,8 @@ public class Event {
         this.day = Days.getDay(timeBegin);
         this.title = title;
         this.description = description;
-        this.image = image;
+//        this.image = image;
+        this.imageUrl = imageUrl;
         this.city = city;
     }
 
@@ -63,6 +65,8 @@ public class Event {
     public Bitmap getImage() {
         return image;
     }
+
+    public String getImageUrl() {return imageUrl;}
 
     public City getCity() {
         return city;
