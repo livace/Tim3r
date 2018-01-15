@@ -12,7 +12,7 @@ public class EventBuilder {
     private Long timeEnd;
     private String title;
     private String description = "Без описания";
-    private Bitmap image;
+    private String imageUrl;
     private City city;
     
     public EventBuilder() {
@@ -44,8 +44,8 @@ public class EventBuilder {
         return this;
     }
 
-    public EventBuilder setImage(Bitmap image) {
-        this.image = image;
+    public EventBuilder setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 
@@ -61,7 +61,7 @@ public class EventBuilder {
                 timeEnd,
                 title,
                 description,
-                image,
+                imageUrl,
                 city
         );
     }
