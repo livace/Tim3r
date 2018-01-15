@@ -8,5 +8,6 @@
     <dimen name="padding_narrow">4dp</dimen>
     <dimen name="padding_wide">16dp</dimen>
 
-    <dimen name="font_size_title">18sp</dimen>
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_login_form">30sp</dimen>
 </resources>
