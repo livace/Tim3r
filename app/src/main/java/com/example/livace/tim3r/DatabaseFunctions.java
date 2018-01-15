@@ -34,6 +34,8 @@ public class DatabaseFunctions {
     }
 
     static void findInDb(){
+        SQLiteDatabase db = eventsDb.getReadableDatabase();
+
 
     }
 
