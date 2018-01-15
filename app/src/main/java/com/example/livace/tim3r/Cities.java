@@ -1,5 +1,7 @@
 package com.example.livace.tim3r;
 
+import android.content.Context;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -10,20 +12,13 @@ import java.util.ArrayList;
 
 public class Cities {
     private static ArrayList<City> citiesList = null;
-    public static void downloadCities() {
-        new Downloader(new Downloader.OnCompleteListener() {
-            @Override
-            public void onComplete(String result) {
-                if (result == null) {
-                    return;
-                }
-                try {
-                    citiesList = City.sGetArrayListFromJson(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).execute(City.API_URL);
+    public static void downloadCities(Context ctx) {
+        String json = ctx.getResources().getString(R.string.json_cities);
+        try {
+            citiesList = City.sGetArrayListFromJson(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public City getCityBySlug(String slug) {
