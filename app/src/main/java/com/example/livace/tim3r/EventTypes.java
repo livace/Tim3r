@@ -1,5 +1,7 @@
 package com.example.livace.tim3r;
 
+import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -12,25 +14,20 @@ import java.util.List;
  */
 
 public class EventTypes {
+    private static String TAG = EventType.class.getCanonicalName();
     private static ArrayList<EventType> eventTypes = null;
 
-    public static void downloadEventTypes() {
-        new Downloader(new Downloader.OnCompleteListener() {
-            @Override
-            public void onComplete(String result) {
-                if (result == null) {
-                    return;
-                }
-                try {
-                    eventTypes = EventType.sGetArrayListFromJson(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).execute(EventType.API_URL);
+    public static void downloadEventTypes(Context ctx) {
+        String json = ctx.getResources().getString(R.string.json_event_types);
+        try {
+            eventTypes = EventType.sGetArrayListFromJson(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public EventType getEventTypeById(int id) {
+    public static EventType getEventTypeById(int id) {
+        Log.d(TAG, String.valueOf(eventTypes));
         for (EventType x : eventTypes) {
             if (x.id == id) {
                 return x;
