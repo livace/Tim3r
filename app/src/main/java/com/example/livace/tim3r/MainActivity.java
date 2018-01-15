@@ -17,17 +17,11 @@ public class MainActivity extends AppCompatActivity {
 
     GestureDetector mDetector;
 
-    List<City> mCitiesList;
-    List<EventType> mEventTypes;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mCitiesList = new ArrayList<>();
-        mEventTypes = new ArrayList<>();
-
+        
         EventTypes.downloadEventTypes();
         Cities.downloadCities();
     }
