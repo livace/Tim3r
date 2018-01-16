@@ -1,5 +1,8 @@
 package com.example.livace.tim3r;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,13 +13,31 @@ import java.util.Set;
  */
 
 public class Day {
-    private Set<Event> events = new HashSet<>();
-    private Set<Event> promotedEvents = new HashSet<>();
+    private final Set<Event> events = new HashSet<>();
+    private final Set<Event> promotedEvents = new HashSet<>();
 
-    private long date;
+    private ArrayList<Event> eventsToShow = new ArrayList<>();
+
+    private final long date;
+
+    public long getDate() {
+        return date;
+    }
 
     public Day(long date) {
         this.date = date;
+        loadEvents();
+    }
+
+    public void updateEventsToShow() {
+        eventsToShow.clear();
+        eventsToShow.addAll(events);
+        eventsToShow.addAll(promotedEvents);
+        Collections.sort(eventsToShow);
+    }
+
+    public ArrayList<Event> getEventsToShow() {
+        return eventsToShow;
     }
 
     public void removeEvent(Event event) {
@@ -29,7 +50,7 @@ public class Day {
         events.remove(event);
     }
 
-    public void loadEvents() {
+    private void loadEvents() {
         events.addAll(DatabaseFunctions.findInDb(date));
     }
 
