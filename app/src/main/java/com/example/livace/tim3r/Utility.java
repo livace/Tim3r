@@ -30,7 +30,9 @@ public class Utility {
         return result;
     }
     public static long getDayFromTimeStamp(long timeStamp) {
-        long date = timeStamp / 86400 / 1000;
-        return date;
+        return timeStamp / 86400 / 1000;
+    }
+    public static long getTimeStampFromDate(long date) {
+        return date * 86400 * 1000;
     }
 }
