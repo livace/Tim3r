@@ -4,10 +4,15 @@
     <dimen name="margin_narrow">4dp</dimen>
     <dimen name="margin_wide">16dp</dimen>
 
+    <dimen name="text_margin">16dp</dimen>
+
     <dimen name="padding_normal">8dp</dimen>
     <dimen name="padding_narrow">4dp</dimen>
     <dimen name="padding_wide">16dp</dimen>
 
     <dimen name="text_size_title">18sp</dimen>
     <dimen name="text_size_login_form">30sp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>
