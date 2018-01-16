@@ -3,13 +3,16 @@ package com.example.livace.tim3r;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.xml.datatype.Duration;
 
 /**
  * Created by livace on 14.01.2018.
  */
 
-public class Event {
+public class Event implements Comparable {
     private EventType type;
     private Long timeBegin;
     private Long timeEnd;
@@ -38,9 +41,6 @@ public class Event {
         this.imageUrl = imageUrl;
         this.city = city;
     }
-
-
-
 
     public EventType getType() {
         return type;
@@ -87,5 +87,31 @@ public class Event {
         int result = timeBegin.hashCode();
         result = result * 100007 + timeEnd.hashCode();
         return result;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Event other = (Event) o;
+        if (other.getTimeBegin().equals(this.getTimeBegin())) {
+            return this.getTimeEnd().compareTo(other.getTimeEnd());
+        }
+        return this.getTimeBegin().compareTo(other.getTimeBegin());
+    }
+
+    public String getTimeString() {
+        Date beginDate = new Date(timeBegin);
+        Date endDate = new Date(timeEnd);
+
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+
+        return String.format("%s - %s", format.format(beginDate), format.format(endDate));
+    }
+
+    public String getDurationString() {
+        Long duration = timeEnd - timeBegin;
+        Date durationDate = new Date(duration);
+
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        return format.format(durationDate);
     }
 }
