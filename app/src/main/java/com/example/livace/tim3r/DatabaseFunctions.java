@@ -37,12 +37,12 @@ public class DatabaseFunctions {
         db.close();
     }
 
-    static HashSet<Event> findInDb(long Date) {
+    static HashSet<Event> findInDb(long date) {
         SQLiteDatabase db = eventsDb.getReadableDatabase();
 
         String sortOrder = "timeBegin ASC";
-        long dateThis = Date * 24 * 60 * 60 * 1000;
-        long dateNext = (Date + 1) * 24 * 60 * 60 * 1000;
+        long dateThis = Utility.getTimeStampFromDate(date);
+        long dateNext = Utility.getTimeStampFromDate(date + 1);
         String selection = "timeBegin BETWEEN ? and ?";
 
         Cursor c = db.query("eventsDatabase",
@@ -83,7 +83,8 @@ public class DatabaseFunctions {
         return events;
     }
 
-    static void removeFromDb(Long id) {
+    static void removeFromDb(Event event) {
+        Long id = event.getId();
         SQLiteDatabase db = eventsDb.getWritableDatabase();
 
         db.delete("eventsDatabase", "rowId = ?", new String[] {String.valueOf(id)});

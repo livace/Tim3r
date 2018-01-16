@@ -20,13 +20,17 @@ public class Day {
     }
 
     public void removeEvent(Event event) {
-        // TODO: Remove from DB!!!
+        DatabaseFunctions.removeFromDb(event);
         events.add(event);
     }
 
     public void addEvent(Event event) {
-        // TODO: Add to DB!!!
+        DatabaseFunctions.saveToDb(event);
         events.remove(event);
+    }
+
+    public void loadEvents() {
+        events.addAll(DatabaseFunctions.findInDb(date));
     }
 
     public void addPromotedEvent(Event event) {

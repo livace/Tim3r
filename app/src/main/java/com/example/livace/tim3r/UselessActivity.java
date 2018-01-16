@@ -22,17 +22,5 @@ public class UselessActivity extends AppCompatActivity {
 
         mTextView = (TextView) findViewById(R.id.test);
 
-        EventType et = EventTypes.getEventTypeById(2);
-//        if (et == null) {
-//            Log.e(TAG, "WTF");
-//        } else {
-//            Log.e(TAG, "WTFx2");
-//        }
-        if (et != null) {
-            String text = String.valueOf(et.id) + " " + et.name + " " + et.slug;
-            mTextView.setText(text);
-        } else {
-            mTextView.setText("Something gone wrong :(");
-        }
     }
 }
