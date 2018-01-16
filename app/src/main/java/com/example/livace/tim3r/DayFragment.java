@@ -1,15 +1,19 @@
 package com.example.livace.tim3r;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,6 +52,35 @@ public class DayFragment extends Fragment {
     public DayFragment() {
         // Required empty public constructor
     }
+
+    private GestureDetector mDetector;
+
+    private GestureDetector.SimpleOnGestureListener listener =
+            new GestureDetector.SimpleOnGestureListener(){
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    View child = mRecyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child == null) {
+                        return false;
+                    }
+                    RecyclerView.ViewHolder holder =
+                            mRecyclerView.findContainingViewHolder(child);
+                    if (holder instanceof DayFragmentAdapter.ViewHolder) {
+                        Toast.makeText(getContext(), "Hi!", Toast.LENGTH_LONG);
+                        // TODO: Open edit Activity
+
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    return true;
+                }
+            };
+
 
     public static DayFragment newInstance(Long date) {
         DayFragment fragment = new DayFragment();
