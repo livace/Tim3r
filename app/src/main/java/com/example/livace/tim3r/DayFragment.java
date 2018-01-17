@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -31,8 +31,6 @@ import java.util.HashSet;
  * create an instance of this fragment.
  */
 public class DayFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String DATE = "date";
 
     public static final String TAG = Fragment.class.getCanonicalName();
@@ -66,7 +64,7 @@ public class DayFragment extends Fragment {
                     RecyclerView.ViewHolder holder =
                             mRecyclerView.findContainingViewHolder(child);
                     if (holder instanceof DayFragmentAdapter.ViewHolder) {
-                        Toast.makeText(getContext(), "Hi!", Toast.LENGTH_LONG);
+                        Toast.makeText(getActivity(), "Hi!", Toast.LENGTH_LONG);
                         // TODO: Open edit Activity
 
                         return true;
@@ -90,13 +88,18 @@ public class DayFragment extends Fragment {
         return fragment;
     }
 
+
+    public static DayFragment newInstance() {
+        return new DayFragment();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mDate = getArguments().getLong(DATE);
         } else {
-            mDate = Utility.getDayFromTimeStamp((new Date()).getTime());
+            mDate = Utility.getCurrentDate();
         }
         mDay = Days.getDay(mDate);
         mEvents = mDay.getEventsToShow();
@@ -110,7 +113,7 @@ public class DayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mRecyclerView.setAdapter(mCustomAdapter);
 

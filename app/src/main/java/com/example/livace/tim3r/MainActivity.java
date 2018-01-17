@@ -36,13 +36,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DatabaseFunctions.setContext(getApplicationContext());
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Intent login = new Intent(this, LoginActivity.class);
         //startActivity(login);
 
-        Fragment dayFragment = getFragmentManager().findFragmentByTag(DayFragment.TAG);
+      Fragment dayFragment = getFragmentManager().findFragmentById(R.id.fragment_placeholder);
+
+        if (!(dayFragment instanceof DayFragment)) {
+            dayFragment = new DayFragment();
+        }
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
                 dayFragment, DayFragment.TAG).commit();
