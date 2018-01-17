@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by livace on 13.01.2018.
@@ -34,5 +35,11 @@ public class Utility {
     }
     public static long getTimeStampFromDate(long date) {
         return date * 86400 * 1000;
+    }
+    public static long getCurrentTime() {
+        return (new Date()).getTime();
+    }
+    public static long getCurrentDate() {
+        return getDayFromTimeStamp(getCurrentTime());
     }
 }

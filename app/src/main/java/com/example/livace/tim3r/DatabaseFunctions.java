@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 /**
  * Created by CrazyDream on 14.01.2018.
@@ -13,11 +13,14 @@ import java.util.HashSet;
 
 public class DatabaseFunctions {
     static Context context;
-    static EventsDb eventsDb = new EventsDb(context);
+    static EventsDb eventsDb;
 
 
-    DatabaseFunctions(Context context) {
-        this.context = context;
+    public static void setContext(Context ctx) {
+        if (context != ctx) {
+            context = ctx;
+            eventsDb = new EventsDb(context);
+        }
     }
 
     static void saveToDb(Event eventToSave) {
@@ -37,7 +40,7 @@ public class DatabaseFunctions {
         db.close();
     }
 
-    static HashSet<Event> findInDb(long date) {
+    static ArrayList<Event> findInDb(long date) {
         SQLiteDatabase db = eventsDb.getReadableDatabase();
 
         String sortOrder = "timeBegin ASC";
@@ -45,7 +48,7 @@ public class DatabaseFunctions {
         long dateNext = Utility.getTimeStampFromDate(date + 1);
         String selection = "timeBegin BETWEEN ? and ?";
 
-        Cursor c = db.query("eventsDatabase",
+        Cursor cursor = db.query("eventsDatabase",
                 null,
                 selection,
                 new String[]{String.valueOf(dateThis), String.valueOf(dateNext)},
@@ -53,33 +56,38 @@ public class DatabaseFunctions {
                 null,
                 sortOrder);
 
-        HashSet<Event> events = new HashSet<Event>();
+        ArrayList<Event> events = new ArrayList<>();
         Event event;
 
-        c.moveToFirst();
-        do {
-            int type = c.getInt(c.getColumnIndex("type"));
-            Long timeBegin = c.getLong(c.getColumnIndex("timeBegin"));
-            Long timeEnd = c.getLong(c.getColumnIndex("timeEnd"));
-            String title = c.getString(c.getColumnIndex("title"));
-            String description = c.getString(c.getColumnIndex("description"));
-            String city = c.getString(c.getColumnIndex("city"));
-            String imageUrl = c.getString(c.getColumnIndex("imageUrl"));
-            Long id = c.getLong(c.getColumnIndex("_id"));
+        try {
+            cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                int type = cursor.getInt(cursor.getColumnIndex("type"));
+                Long timeBegin = cursor.getLong(cursor.getColumnIndex("timeBegin"));
+                Long timeEnd = cursor.getLong(cursor.getColumnIndex("timeEnd"));
+                String title = cursor.getString(cursor.getColumnIndex("title"));
+                String description = cursor.getString(cursor.getColumnIndex("description"));
+                String city = cursor.getString(cursor.getColumnIndex("city"));
+                String imageUrl = cursor.getString(cursor.getColumnIndex("imageUrl"));
+                Long id = cursor.getLong(cursor.getColumnIndex("_id"));
 
-            event = new Event(EventTypes.getEventTypeById(type),
-                    timeBegin,
-                    timeEnd,
-                    title,
-                    description,
-                    imageUrl,
-                    Cities.getCityBySlug(city));
+                event = new Event(EventTypes.getEventTypeById(type),
+                        timeBegin,
+                        timeEnd,
+                        title,
+                        description,
+                        imageUrl,
+                        Cities.getCityBySlug(city));
 
-            event.setId(id);
-            events.add(event);
-        } while (c.moveToNext());
+                event.setId(id);
+                events.add(event);
+            }
+        } finally {
+            cursor.close();
+        }
 
         db.close();
+
         return events;
     }
 
@@ -87,7 +95,7 @@ public class DatabaseFunctions {
         Long id = event.getId();
         SQLiteDatabase db = eventsDb.getWritableDatabase();
 
-        db.delete("eventsDatabase", "rowId = ?", new String[] {String.valueOf(id)});
+        db.delete("eventsDatabase", "rowId = ?", new String[]{String.valueOf(id)});
 
         db.close();
     }
