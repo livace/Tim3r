@@ -1,5 +1,6 @@
 package com.example.livace.tim3r;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class EditEventActivity extends AppCompatActivity {
     private static String DATE = EditEventActivity.class.getCanonicalName() + "date";
@@ -33,6 +35,13 @@ public class EditEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
 
+        ActionBar actionBar = getActionBar();
+        if (actionBar == null) {
+            Toast.makeText(getApplicationContext(), "Action bar is null", Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         mDate = getIntent().getLongExtra(DATE, Utility.getCurrentDate());
 
         mTitle = (EditText) findViewById(R.id.edit_text_title);
@@ -66,9 +75,21 @@ public class EditEventActivity extends AppCompatActivity {
                 if (event != null) {
                     DatabaseFunctions.removeFromDb(event);
                 }
+
+                onBackPressed();
+
                 DatabaseFunctions.saveToDb(eb.build());
             }
         });
+    }
+
+    /**
+     * Take care of popping the fragment back stack or finishing the activity
+     * as appropriate.
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public static Intent getStartingIntent(Context ctx, long date) {

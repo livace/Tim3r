@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notifications:
                     Intent intent = EditEventActivity.getStartingIntent(MainActivity.this);
                     startActivity(intent);
-                    return true;
+                    return false;
             }
             return false;
         }
