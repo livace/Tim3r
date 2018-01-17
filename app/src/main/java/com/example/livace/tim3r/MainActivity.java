@@ -1,13 +1,12 @@
 package com.example.livace.tim3r;
 
-import android.content.Intent;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
 //                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
+                    Intent intent = EditEventActivity.getStartingIntent(MainActivity.this);
+                    startActivity(intent);
                     return true;
             }
             return false;
@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EventTypes.downloadEventTypes(getApplicationContext());
+        Cities.downloadCities(getApplicationContext());
+
         DatabaseFunctions.setContext(getApplicationContext());
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         //Intent login = new Intent(this, LoginActivity.class);
         //startActivity(login);
 
-      Fragment dayFragment = getFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        Fragment dayFragment = getFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
         if (!(dayFragment instanceof DayFragment)) {
             dayFragment = new DayFragment();

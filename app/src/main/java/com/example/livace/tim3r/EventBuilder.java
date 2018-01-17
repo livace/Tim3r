@@ -1,22 +1,22 @@
 package com.example.livace.tim3r;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 /**
  * Created by livace on 14.01.2018.
  */
 
 public class EventBuilder {
-    private EventType type;
-    private Long timeBegin;
-    private Long timeEnd;
-    private String title;
-    private String description = "Без описания";
+    private EventType type = EventTypes.getEventTypeById(0);
+    private Long timeBegin = Utility.getCurrentTime();
+    private Long timeEnd = timeBegin;
+    private String title = "Hello World";
+    private String description = "";
     private String imageUrl;
     private City city;
     
     public EventBuilder() {
-        
     }
     
     public EventBuilder setType(EventType type) {

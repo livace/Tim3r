@@ -33,7 +33,11 @@ public class DatabaseFunctions {
         values.put("timeEnd", eventToSave.getTimeEnd());
         values.put("description", eventToSave.getDescription());
         values.put("image", "");
-        values.put("city", eventToSave.getCity().slug);
+        if (eventToSave.getCity() != null) {
+            values.put("city", eventToSave.getCity().slug);
+        } else {
+            values.put("city", "no");
+        }
         values.put("type", eventToSave.getType().id);
 
         db.insert("eventsDatabase", null, values);

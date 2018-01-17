@@ -101,7 +101,7 @@ public class DayFragment extends Fragment {
         } else {
             mDate = Utility.getCurrentDate();
         }
-        mDay = Days.getDay(mDate);
+        mDay = Days.getDayFromDate(mDate);
         mEvents = mDay.getEventsToShow();
         mCustomAdapter = new DayFragmentAdapter(mEvents);
     }
