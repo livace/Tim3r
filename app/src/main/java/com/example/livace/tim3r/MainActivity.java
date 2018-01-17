@@ -1,5 +1,6 @@
 package com.example.livace.tim3r;
 
+import android.content.Intent;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Fragment dayFragment = getFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        //Intent login = new Intent(this, LoginActivity.class);
+        //startActivity(login);
+
+      Fragment dayFragment = getFragmentManager().findFragmentById(R.id.fragment_placeholder);
 
         if (!(dayFragment instanceof DayFragment)) {
             dayFragment = new DayFragment();
