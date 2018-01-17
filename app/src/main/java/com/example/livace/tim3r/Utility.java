@@ -42,4 +42,7 @@ public class Utility {
     public static long getCurrentDate() {
         return getDayFromTimeStamp(getCurrentTime());
     }
+    public static long getTimeStampFromDateHoursMinutes(long date, long hours, long minutes) {
+        return getTimeStampFromDate(date) + 3600 * 1000 * hours + 60 * 1000 * minutes;
+    }
 }

@@ -34,7 +34,7 @@ public class Event implements Comparable {
         this.type = type;
         this.timeBegin = timeBegin;
         this.timeEnd = timeEnd;
-        this.day = Days.getDay(timeBegin);
+        this.day = Days.getDayFromTimeStamp(timeBegin);
         this.title = title;
         this.description = description;
 //        this.image = image;
@@ -85,7 +85,7 @@ public class Event implements Comparable {
     @Override
     public int hashCode() {
         int result = timeBegin.hashCode();
-        result = result * 100007 + timeEnd.hashCode();
+        result = result * 1000007 + timeEnd.hashCode();
         return result;
     }
 
@@ -111,7 +111,7 @@ public class Event implements Comparable {
         Long duration = timeEnd - timeBegin;
         Date durationDate = new Date(duration);
 
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("h:mm");
         return format.format(durationDate);
     }
 }
