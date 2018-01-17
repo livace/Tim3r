@@ -99,7 +99,7 @@ public class DatabaseFunctions {
         Long id = event.getId();
         SQLiteDatabase db = eventsDb.getWritableDatabase();
 
-        db.delete("eventsDatabase", "rowId = ?", new String[]{String.valueOf(id)});
+        db.delete("eventsDatabase", "_id = ?", new String[]{String.valueOf(id)});
 
         db.close();
     }
