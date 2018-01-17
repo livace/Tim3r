@@ -73,7 +73,6 @@ public class DatabaseFunctions {
                 String description = cursor.getString(cursor.getColumnIndex("description"));
                 String city = cursor.getString(cursor.getColumnIndex("city"));
                 String imageUrl = cursor.getString(cursor.getColumnIndex("imageUrl"));
-                Long id = cursor.getLong(cursor.getColumnIndex("_id"));
 
                 event = new Event(EventTypes.getEventTypeById(type),
                         timeBegin,
@@ -83,7 +82,6 @@ public class DatabaseFunctions {
                         imageUrl,
                         Cities.getCityBySlug(city));
 
-                event.setId(id);
                 events.add(event);
             }
         } finally {
@@ -96,10 +94,10 @@ public class DatabaseFunctions {
     }
 
     static void removeFromDb(Event event) {
-        Long id = event.getId();
+        Long timeBegin = event.getTimeBegin();
         SQLiteDatabase db = eventsDb.getWritableDatabase();
 
-        db.delete("eventsDatabase", "_id = ?", new String[]{String.valueOf(id)});
+        db.delete("eventsDatabase", "timeBegin = ?", new String[]{String.valueOf(timeBegin)});
 
         db.close();
     }

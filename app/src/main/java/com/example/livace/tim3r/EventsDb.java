@@ -22,8 +22,7 @@ public class EventsDb extends SQLiteOpenHelper {
                 + "description text,"
                 + "image blob,"
                 + "city text,"
-                + "type integer,"
-                + "_id integer PRIMARY KEY AUTOINCREMENT DEFAULT 1" + ");");
+                + "type integer" + ");");
     }
 
     @Override
