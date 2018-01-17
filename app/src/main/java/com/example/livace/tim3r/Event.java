@@ -22,7 +22,7 @@ public class Event implements Comparable {
     private Bitmap image;
     private City city;
     private String imageUrl;
-    private Long id = null;
+
 
     public Event(EventType type,
                  Long timeBegin,
@@ -75,11 +75,6 @@ public class Event implements Comparable {
         return city;
     }
 
-    public Long getId() { return id; }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public int hashCode() {
