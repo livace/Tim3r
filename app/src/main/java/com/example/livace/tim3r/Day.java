@@ -30,6 +30,8 @@ public class Day {
     }
 
     public void updateEventsToShow() {
+        events.clear();
+        loadEvents();
         eventsToShow.clear();
         eventsToShow.addAll(events);
         eventsToShow.addAll(promotedEvents);

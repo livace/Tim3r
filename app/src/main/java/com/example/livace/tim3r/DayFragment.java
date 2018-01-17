@@ -41,8 +41,6 @@ public class DayFragment extends Fragment {
 
     private ArrayList<Event> mEvents;
 
-    private OnFragmentInteractionListener mListener;
-
     private RecyclerView mRecyclerView;
 
     private DayFragmentAdapter mCustomAdapter;
@@ -53,8 +51,16 @@ public class DayFragment extends Fragment {
 
     private GestureDetector mDetector;
 
-    private GestureDetector.SimpleOnGestureListener listener =
-            new GestureDetector.SimpleOnGestureListener(){
+    @Override
+    public void onResume() {
+        mEvents.clear();
+        mEvents.addAll(mDay.getEventsToShow());
+
+        mCustomAdapter.notifyDataSetChanged();
+        super.onResume();
+    }
+
+    private GestureDetector.SimpleOnGestureListener mListener = new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
                     View child = mRecyclerView.findChildViewUnder(e.getX(), e.getY());
@@ -64,8 +70,9 @@ public class DayFragment extends Fragment {
                     RecyclerView.ViewHolder holder =
                             mRecyclerView.findContainingViewHolder(child);
                     if (holder instanceof DayFragmentAdapter.ViewHolder) {
-                        Toast.makeText(getActivity(), "Hi!", Toast.LENGTH_LONG);
-                        // TODO: Open edit Activity
+                        Intent intent = EditEventActivity.getStartingIntent(getActivity());
+
+                        startActivity(intent);
 
                         return true;
                     }
@@ -116,6 +123,17 @@ public class DayFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mRecyclerView.setAdapter(mCustomAdapter);
+
+        mDetector = new GestureDetector(getActivity(), mListener);
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                mDetector.onTouchEvent(e);
+
+                return super.onInterceptTouchEvent(rv, e);
+            }
+        });
 
         return view;
     }

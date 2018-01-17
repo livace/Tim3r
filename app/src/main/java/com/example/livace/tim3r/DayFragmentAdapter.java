@@ -34,6 +34,10 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
     public void addData(List<Event> data) {
         mDataSet.addAll(data);
     }
+    public void resetData(List<Event> data) {
+        mDataSet.clear();
+        mDataSet.addAll(data);
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
