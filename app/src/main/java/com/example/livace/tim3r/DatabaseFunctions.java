@@ -61,27 +61,29 @@ public class DatabaseFunctions {
                 sortOrder);
 
         ArrayList<Event> events = new ArrayList<>();
-        Event event;
-
         try {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
                 int type = cursor.getInt(cursor.getColumnIndex("type"));
+
                 Long timeBegin = cursor.getLong(cursor.getColumnIndex("timeBegin"));
                 Long timeEnd = cursor.getLong(cursor.getColumnIndex("timeEnd"));
                 String title = cursor.getString(cursor.getColumnIndex("title"));
+
                 String description = cursor.getString(cursor.getColumnIndex("description"));
                 String city = cursor.getString(cursor.getColumnIndex("city"));
-                String imageUrl = cursor.getString(cursor.getColumnIndex("imageUrl"));
-
-                event = new Event(EventTypes.getEventTypeById(type),
+                String imageUrl = cursor.getString(cursor.getColumnIndex("image"));
+                // Long id = cursor.getLong(cursor.getColumnIndex("_id"));
+                City foundCity = Cities.getCityBySlug(city);
+                Event event = new Event(EventTypes.getEventTypeById(type)
                         timeBegin,
                         timeEnd,
                         title,
                         description,
                         imageUrl,
-                        Cities.getCityBySlug(city));
+                        foundCity);
 
+//                event.setId(id);
                 events.add(event);
             }
         } finally {

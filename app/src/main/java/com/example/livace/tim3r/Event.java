@@ -34,7 +34,6 @@ public class Event implements Comparable {
         this.type = type;
         this.timeBegin = timeBegin;
         this.timeEnd = timeEnd;
-        this.day = Days.getDayFromTimeStamp(timeBegin);
         this.title = title;
         this.description = description;
 //        this.image = image;

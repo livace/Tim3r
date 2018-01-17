@@ -37,6 +37,7 @@ public class Day {
     }
 
     public ArrayList<Event> getEventsToShow() {
+        updateEventsToShow();
         return eventsToShow;
     }
 
