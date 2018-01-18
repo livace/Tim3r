@@ -19,11 +19,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
 //                    mTextMessage.setText(R.string.title_home);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_calendar:
 //                    mTextMessage.setText(R.string.title_dashboard);
                     return true;
-                case R.id.navigation_notifications:
-                    Intent intent = EditEventActivity.getStartingIntent(MainActivity.this);
+                case R.id.navigation_adding_a_task:
+                    Intent intent = EditEventActivity.getStartingIntentAdd(MainActivity.this);
                     startActivity(intent);
                     return false;
             }

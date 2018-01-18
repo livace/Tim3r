@@ -16,6 +16,7 @@ public class EventsDb extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase eventsDatabase) {
         eventsDatabase.execSQL("create table eventsDatabase ("
+                + "id integer primary key autoincrement,"
                 + "title text,"
                 + "timeBegin integer,"
                 + "timeEnd integer,"

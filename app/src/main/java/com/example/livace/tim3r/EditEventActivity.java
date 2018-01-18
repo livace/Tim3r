@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class EditEventActivity extends AppCompatActivity {
     private static String DATE = EditEventActivity.class.getCanonicalName() + "date";
+    private static String EVENT_ID = EditEventActivity.class.getCanonicalName() + "eventId";
 
     private EditText mBeginHours;
     private EditText mEndHours;
@@ -30,6 +31,8 @@ public class EditEventActivity extends AppCompatActivity {
 
     private Event event = null;
 
+    private Long mEventId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +40,15 @@ public class EditEventActivity extends AppCompatActivity {
 
         ActionBar actionBar = getActionBar();
         if (actionBar == null) {
-            Toast.makeText(getApplicationContext(), "Action bar is null", Toast.LENGTH_SHORT)
-                    .show();
+//            Toast.makeText(getApplicationContext(), "Action bar is null", Toast.LENGTH_SHORT)
+//                    .show();
         } else {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        // TODO: Fix!!!!
+
         mDate = getIntent().getLongExtra(DATE, Utility.getCurrentDate());
+        mEventId = getIntent().getLongExtra(EVENT_ID, -1);
 
         mTitle = (EditText) findViewById(R.id.edit_text_title);
         mDesc = (EditText) findViewById(R.id.edit_text_desc);
@@ -59,12 +65,18 @@ public class EditEventActivity extends AppCompatActivity {
 
         mButton = (Button) findViewById(R.id.btn_ok);
 
+        if (mEventId == -1) {
+            // TODO: Set current date
+        } else {
+            event = DatabaseFunctions.FindEventById(mEventId);
+            mDate = event.getDate();
+            // TODO: Set text
+        }
+
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EventBuilder eb = new EventBuilder();
-
-                Log.d("WTF", "WUT?");
 
                 eb.setTitle(mTitle.getText().toString());
                 long beginHours = Long.valueOf(mBeginHours.getText().toString());
@@ -72,13 +84,23 @@ public class EditEventActivity extends AppCompatActivity {
                 eb.setTimeBegin(
                         Utility.getTimeStampFromDateHoursMinutes(mDate, beginHours, beginMinutes)
                 );
+                long endHours = Long.valueOf(mEndHours.getText().toString());
+                long endMinutes = Long.valueOf(mEndMinutes.getText().toString());
+
                 if (event != null) {
                     DatabaseFunctions.removeFromDb(event);
                 }
 
-                onBackPressed();
+                event = eb.build();
 
-                DatabaseFunctions.saveToDb(eb.build());
+//                Toast.makeText(EditEventActivity.this, String.valueOf(event.getTimeBegin()) + " "
+//                        + String.valueOf(event.getTimeEnd()), Toast.LENGTH_SHORT).show();
+
+                Log.e("WTF", "Btn clicked");
+
+                DatabaseFunctions.saveToDb(event);
+
+                onBackPressed();
             }
         });
     }
@@ -92,15 +114,19 @@ public class EditEventActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public static Intent getStartingIntent(Context ctx, long date) {
+    public static Intent getStartingIntentAdd(Context ctx, long date) {
         Intent intent = new Intent(ctx, EditEventActivity.class);
         intent.putExtra(DATE, date);
         return intent;
     }
 
+    public static Intent getStartingIntentAdd(Context ctx) {
+        return new Intent(ctx, EditEventActivity.class);
+    }
 
-    public static Intent getStartingIntent(Context ctx) {
+    public static Intent getStartingIntentEdit(Context ctx, Event event) {
         Intent intent = new Intent(ctx, EditEventActivity.class);
+        intent.putExtra(EVENT_ID, event.getId());
         return intent;
     }
 

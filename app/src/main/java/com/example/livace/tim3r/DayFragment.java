@@ -70,7 +70,8 @@ public class DayFragment extends Fragment {
                     RecyclerView.ViewHolder holder =
                             mRecyclerView.findContainingViewHolder(child);
                     if (holder instanceof DayFragmentAdapter.ViewHolder) {
-                        Intent intent = EditEventActivity.getStartingIntent(getActivity());
+                        Intent intent = EditEventActivity.getStartingIntentEdit(getActivity(),
+                                ((DayFragmentAdapter.ViewHolder) holder).getEvent());
 
                         startActivity(intent);
 
@@ -150,7 +151,6 @@ public class DayFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
