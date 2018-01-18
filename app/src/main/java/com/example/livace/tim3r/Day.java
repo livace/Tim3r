@@ -1,5 +1,7 @@
 package com.example.livace.tim3r;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,6 +38,10 @@ public class Day {
         eventsToShow.addAll(events);
         eventsToShow.addAll(promotedEvents);
         Collections.sort(eventsToShow);
+
+        for (Event x : eventsToShow) {
+            Log.e("Sort", String.valueOf(x.getTimeBegin()));
+        }
     }
 
     public ArrayList<Event> getEventsToShow() {

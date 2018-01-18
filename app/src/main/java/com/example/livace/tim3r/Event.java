@@ -16,13 +16,14 @@ public class Event implements Comparable {
     private EventType type;
     private Long timeBegin;
     private Long timeEnd;
-    private Day day;
     private String title;
     private String description;
     private Bitmap image;
     private City city;
     private String imageUrl;
+    private Long id;
 
+    private Long date;
 
     public Event(EventType type,
                  Long timeBegin,
@@ -37,8 +38,13 @@ public class Event implements Comparable {
         this.title = title;
         this.description = description;
 //        this.image = image;
+        this.date = Utility.getTimeStampFromDate(timeBegin);
         this.imageUrl = imageUrl;
         this.city = city;
+    }
+
+    public Long getDate() {
+        return date;
     }
 
     public EventType getType() {
@@ -51,10 +57,6 @@ public class Event implements Comparable {
 
     public Long getTimeEnd() {
         return timeEnd;
-    }
-
-    public Day getDay() {
-        return day;
     }
 
     public String getTitle() {
@@ -75,6 +77,13 @@ public class Event implements Comparable {
         return city;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public int hashCode() {
@@ -96,7 +105,7 @@ public class Event implements Comparable {
         Date beginDate = new Date(timeBegin);
         Date endDate = new Date(timeEnd);
 
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("h:mm");
 
         return String.format("%s - %s", format.format(beginDate), format.format(endDate));
     }

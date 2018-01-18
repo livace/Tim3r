@@ -67,6 +67,10 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
             textViewDuration.setText(data.getDurationString());
             event = data;
         }
+
+        public Event getEvent() {
+            return event;
+        }
     }
 
     @Override
