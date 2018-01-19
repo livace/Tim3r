@@ -32,20 +32,19 @@ public class Day {
     }
 
     public void updateEventsToShow() {
-        events.clear();
         loadEvents();
         eventsToShow.clear();
         eventsToShow.addAll(events);
         eventsToShow.addAll(promotedEvents);
         Collections.sort(eventsToShow);
 
-        for (Event x : eventsToShow) {
-            Log.e("Sort", String.valueOf(x.getTimeBegin()));
-        }
+        Log.e("Day", String.valueOf(events.size()) + " + " + String.valueOf(promotedEvents.size())
+        + " = " + String.valueOf(eventsToShow.size()));
     }
 
     public ArrayList<Event> getEventsToShow() {
         updateEventsToShow();
+        Log.e("Day", String.valueOf(eventsToShow.size()));
         return eventsToShow;
     }
 
@@ -60,6 +59,7 @@ public class Day {
     }
 
     private void loadEvents() {
+        events.clear();
         events.addAll(DatabaseFunctions.findInDb(date));
     }
 

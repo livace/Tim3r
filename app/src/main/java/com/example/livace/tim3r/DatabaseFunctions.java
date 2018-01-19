@@ -23,28 +23,29 @@ public class DatabaseFunctions {
         }
     }
 
-    static void saveToDb(Event eventToSave) {
+    static void saveToDb(Event event) {
         SQLiteDatabase db = eventsDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put("title", eventToSave.getTitle());
-        values.put("timeBegin", eventToSave.getTimeBegin());
-        values.put("timeEnd", eventToSave.getTimeEnd());
-        values.put("description", eventToSave.getDescription());
+        values.put("title", event.getTitle());
+        values.put("timeBegin", event.getTimeBegin());
+        values.put("timeEnd", event.getTimeEnd());
+        values.put("description", event.getDescription());
         values.put("image", "");
-        if (eventToSave.getCity() != null) {
-            values.put("city", eventToSave.getCity().slug);
+        if (event.getCity() != null) {
+            values.put("city", event.getCity().slug);
         } else {
             values.put("city", "no");
         }
-        values.put("type", eventToSave.getType().id);
-
-//        Log.e("DB", "SaveToDb");
-
-//        TODO: Почему-то сохраняет дважды, починить
+        values.put("type", event.getType().id);
 
         Long id = db.insert("eventsDatabase", null, values);
+
+        Log.e("Db", "Saved, id = " + String.valueOf(id));
+
+        event.setId(id);
+
         db.close();
     }
 
@@ -77,6 +78,8 @@ public class DatabaseFunctions {
 
         db.close();
 
+        Log.e("Db", "Found " + String.valueOf(events.size()) + "Events");
+
         return events;
     }
 
@@ -90,7 +93,7 @@ public class DatabaseFunctions {
         String description = cursor.getString(cursor.getColumnIndex("description"));
         String city = cursor.getString(cursor.getColumnIndex("city"));
         String imageUrl = cursor.getString(cursor.getColumnIndex("image"));
-        Long id = cursor.getLong(0);
+        Long id = cursor.getLong(cursor.getColumnIndex("id"));
         City foundCity = Cities.getCityBySlug(city);
         Event event = new Event(EventTypes.getEventTypeById(type),
                 timeBegin,
@@ -108,7 +111,7 @@ public class DatabaseFunctions {
         SQLiteDatabase db = eventsDb.getReadableDatabase();
 
         String sortOrder = "timeBegin ASC";
-        String selection = "_id = ?";
+        String selection = "id = ?";
 
         Cursor cursor = db.query("eventsDatabase",
                 null,
@@ -135,7 +138,7 @@ public class DatabaseFunctions {
         Long id = event.getId();
         SQLiteDatabase db = eventsDb.getWritableDatabase();
 
-        db.delete("eventsDatabase", "_id = ?", new String[]{String.valueOf(id)});
+        db.delete("eventsDatabase", "id = ?", new String[]{String.valueOf(id)});
 
         db.close();
     }
