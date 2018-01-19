@@ -87,6 +87,10 @@ public class EditEventActivity extends AppCompatActivity {
                 long endHours = Long.valueOf(mEndHours.getText().toString());
                 long endMinutes = Long.valueOf(mEndMinutes.getText().toString());
 
+                eb.setTimeEnd(
+                        Utility.getTimeStampFromDateHoursMinutes(mDate, endHours, endMinutes)
+                );
+
                 if (event != null) {
                     DatabaseFunctions.removeFromDb(event);
                 }
@@ -96,7 +100,8 @@ public class EditEventActivity extends AppCompatActivity {
 //                Toast.makeText(EditEventActivity.this, String.valueOf(event.getTimeBegin()) + " "
 //                        + String.valueOf(event.getTimeEnd()), Toast.LENGTH_SHORT).show();
 
-                Log.e("WTF", "Btn clicked");
+                Log.e("WTF", "Event time : " + String.valueOf(event.getTimeBegin()) + " "
+                        + String.valueOf(event.getTimeEnd()));
 
                 DatabaseFunctions.saveToDb(event);
 

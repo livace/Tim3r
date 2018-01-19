@@ -16,7 +16,6 @@ public class DatabaseFunctions {
     static Context context;
     static EventsDb eventsDb;
 
-
     public static void setContext(Context ctx) {
         if (context != ctx) {
             context = ctx;
@@ -45,7 +44,7 @@ public class DatabaseFunctions {
 
 //        TODO: Почему-то сохраняет дважды, починить
 
-        db.insert("eventsDatabase", null, values);
+        Long id = db.insert("eventsDatabase", null, values);
         db.close();
     }
 
@@ -91,7 +90,7 @@ public class DatabaseFunctions {
         String description = cursor.getString(cursor.getColumnIndex("description"));
         String city = cursor.getString(cursor.getColumnIndex("city"));
         String imageUrl = cursor.getString(cursor.getColumnIndex("image"));
-        Long id = cursor.getLong(cursor.getColumnIndex("id"));
+        Long id = cursor.getLong(0);
         City foundCity = Cities.getCityBySlug(city);
         Event event = new Event(EventTypes.getEventTypeById(type),
                 timeBegin,
@@ -109,7 +108,7 @@ public class DatabaseFunctions {
         SQLiteDatabase db = eventsDb.getReadableDatabase();
 
         String sortOrder = "timeBegin ASC";
-        String selection = "id = ?";
+        String selection = "_id = ?";
 
         Cursor cursor = db.query("eventsDatabase",
                 null,
@@ -136,7 +135,7 @@ public class DatabaseFunctions {
         Long id = event.getId();
         SQLiteDatabase db = eventsDb.getWritableDatabase();
 
-        db.delete("eventsDatabase", "id = ?", new String[]{String.valueOf(id)});
+        db.delete("eventsDatabase", "_id = ?", new String[]{String.valueOf(id)});
 
         db.close();
     }
