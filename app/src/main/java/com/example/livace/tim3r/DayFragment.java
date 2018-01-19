@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,8 +54,11 @@ public class DayFragment extends Fragment {
 
     @Override
     public void onResume() {
-        mEvents.clear();
-        mEvents.addAll(mDay.getEventsToShow());
+        Log.e("Fragment", "Was: " + String.valueOf(mEvents.size()));
+
+        mEvents = mDay.getEventsToShow();
+
+        Log.e("Fragment", "Now: " + String.valueOf(mEvents.size()));
 
         mCustomAdapter.notifyDataSetChanged();
         super.onResume();
