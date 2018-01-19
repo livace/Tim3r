@@ -37,4 +37,8 @@ public class EventTypes {
         }
         return null;
     }
+
+    public static ArrayList<EventType> getEventTypes() {
+        return eventTypes;
+    }
 }
