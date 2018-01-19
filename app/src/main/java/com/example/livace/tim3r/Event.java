@@ -3,6 +3,7 @@ package com.example.livace.tim3r;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -105,16 +106,20 @@ public class Event implements Comparable {
         Date beginDate = new Date(timeBegin);
         Date endDate = new Date(timeEnd);
 
-        SimpleDateFormat format = new SimpleDateFormat("h:mm");
+        SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat
+                .getTimeInstance(DateFormat.SHORT);
 
         return String.format("%s - %s", format.format(beginDate), format.format(endDate));
     }
 
     public String getDurationString() {
         Long duration = timeEnd - timeBegin;
-        Date durationDate = new Date(duration);
+        Date durationDate = new Date();
 
-        SimpleDateFormat format = new SimpleDateFormat("h:mm");
+        durationDate.setTime(duration);
+
+        SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat
+                .getTimeInstance(DateFormat.SHORT);
         return format.format(durationDate);
     }
 }

@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class EditEventActivity extends AppCompatActivity {
     private static String DATE = EditEventActivity.class.getCanonicalName() + "date";
     private static String EVENT_ID = EditEventActivity.class.getCanonicalName() + "eventId";
@@ -45,7 +49,6 @@ public class EditEventActivity extends AppCompatActivity {
         } else {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        // TODO: Fix!!!!
 
         mDate = getIntent().getLongExtra(DATE, Utility.getCurrentDate());
         mEventId = getIntent().getLongExtra(EVENT_ID, -1);
@@ -81,6 +84,10 @@ public class EditEventActivity extends AppCompatActivity {
                 eb.setTitle(mTitle.getText().toString());
                 long beginHours = Long.valueOf(mBeginHours.getText().toString());
                 long beginMinutes = Long.valueOf(mBeginHours.getText().toString());
+
+                Log.e("WTF", String.valueOf(beginHours));
+                Log.e("WTF", String.valueOf(beginMinutes));
+
                 eb.setTimeBegin(
                         Utility.getTimeStampFromDateHoursMinutes(mDate, beginHours, beginMinutes)
                 );
@@ -102,6 +109,16 @@ public class EditEventActivity extends AppCompatActivity {
 
                 Log.e("WTF", "Event time : " + String.valueOf(event.getTimeBegin()) + " "
                         + String.valueOf(event.getTimeEnd()));
+
+                Date dDate = new Date();
+
+                Log.e("WTF", "Event time: " + SimpleDateFormat
+                        .getDateTimeInstance().format(dDate));
+
+                dDate.setTime(event.getTimeBegin());
+
+                Log.e("WTF", "Event time: " + SimpleDateFormat
+                        .getDateTimeInstance().format(dDate));
 
                 DatabaseFunctions.saveToDb(event);
 

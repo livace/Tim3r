@@ -11,7 +11,9 @@
         android:layout_height="wrap_content"
         android:hint="Завтрак"
         android:maxLines="1"
-        android:textSize="@dimen/text_size_title" />
+        android:textSize="@dimen/text_size_title"
+        android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/edit_text_begin_hours"/>
 
 
     <LinearLayout
@@ -25,7 +27,9 @@
             android:layout_height="wrap_content"
             android:hint="08"
             android:inputType="number"
-            android:maxLength="2" />
+            android:maxLength="2"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/edit_text_begin_minutes" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +42,9 @@
             android:layout_height="wrap_content"
             android:hint="00"
             android:inputType="number"
-            android:maxLength="2" />
+            android:maxLength="2"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/edit_text_end_hours" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +57,9 @@
             android:layout_height="wrap_content"
             android:hint="09"
             android:inputType="number"
-            android:maxLength="2" />
+            android:maxLength="2"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/edit_text_end_minutes" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,7 +72,9 @@
             android:layout_height="wrap_content"
             android:hint="00"
             android:inputType="number"
-            android:maxLength="2" />
+            android:maxLength="2"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/edit_text_end_desc" />
 
         <!--<EditText-->
             <!--android:id="@+id/text_view_date"-->

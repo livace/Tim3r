@@ -9,8 +9,8 @@ import android.util.Log;
 
 public class EventBuilder {
     private EventType type = EventTypes.getEventTypeById(0);
-    private Long timeBegin = Utility.getCurrentTime();
-    private Long timeEnd = timeBegin;
+    private Long timeBegin = 0L;
+    private Long timeEnd = 0L;
     private String title = "Hello World";
     private String description = "";
     private String imageUrl;

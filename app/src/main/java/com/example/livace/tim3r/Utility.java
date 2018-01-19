@@ -1,11 +1,15 @@
 package com.example.livace.tim3r;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -31,7 +35,9 @@ public class Utility {
         return result;
     }
     public static long getDayFromTimeStamp(long timeStamp) {
-        return timeStamp / 86400 / 1000;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp);
+        return calendar.get(Calendar.DATE);
     }
     public static long getTimeStampFromDate(long date) {
         return date * 86400 * 1000;
@@ -43,6 +49,12 @@ public class Utility {
         return getDayFromTimeStamp(getCurrentTime());
     }
     public static long getTimeStampFromDateHoursMinutes(long date, long hours, long minutes) {
+
+        Date dDate = new Date();
+        dDate.setTime(getTimeStampFromDate(date));
+
+        Log.e("Date", SimpleDateFormat.getDateTimeInstance().format(dDate));
+
         return getTimeStampFromDate(date) + 3600 * 1000 * hours + 60 * 1000 * minutes;
     }
 }
