@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
 //                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_calendar:
-//                    mTextMessage.setText(R.string.title_dashboard);
+                    Intent intentCalendar = new Intent(MainActivity.this, CalendarActivity.class);
+                    startActivity(intentCalendar);
                     return true;
                 case R.id.navigation_adding_a_task:
                     Intent intent = EditEventActivity.getStartingIntentAdd(MainActivity.this);

@@ -14,6 +14,8 @@ import java.util.Calendar;
  */
 
 public class CalendarActivity  extends AppCompatActivity {
+    long returningDate;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,21 +26,6 @@ public class CalendarActivity  extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView view, int year,
                                             int month, int day) {
-
-//                int mYear = year;
-//                int mMonth = month;
-//                int mDay = dayOfMonth;
-//                long mseconds = 0;
-//                if (month < 3) {
-//                    month += 12;
-//                    year -= 1;
-//                }
-//                mseconds = ((dayOfMonth + (153 * month - 457) / 5 + 365 * year + year / 4 - year / 100 + year / 400 - 306) - 693596);
-//                Toast.makeText(getApplicationContext(), String.valueOf(mseconds), Toast.LENGTH_LONG).show();
-//                String selectedDate = new StringBuilder().append(mMonth + 1)
-//                        .append("-").append(mDay).append("-").append(mYear)
-//                        .append(" ").toString();
-//                Toast.makeText(getApplicationContext(), selectedDate, Toast.LENGTH_LONG).show();
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
@@ -48,7 +35,8 @@ public class CalendarActivity  extends AppCompatActivity {
                 calendar.set(Calendar.SECOND, 0);
                 calendar.set(Calendar.MILLISECOND, 0);
                 long mseconds = calendar.getTimeInMillis();
-                Toast.makeText(getApplicationContext(), String.valueOf(mseconds), Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(), String.valueOf(mseconds), Toast.LENGTH_LONG).show();
+                returningDate = mseconds / (1000 * 60 * 60 * 24);
             }
         });
     }
