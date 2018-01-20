@@ -1,5 +1,6 @@
 package com.example.livace.tim3r;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,13 @@ public class CalendarActivity  extends AppCompatActivity {
                 calendar.set(Calendar.MILLISECOND, 0);
                 long mseconds = calendar.getTimeInMillis();
                // Toast.makeText(getApplicationContext(), String.valueOf(mseconds), Toast.LENGTH_LONG).show();
+
                 returningDate = mseconds / (1000 * 60 * 60 * 24);
+
+                Intent intent = new Intent();
+                intent.putExtra("day", returningDate);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

@@ -10,6 +10,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private long dayToShow;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_calendar:
                     Intent intentCalendar = new Intent(MainActivity.this, CalendarActivity.class);
-                    startActivity(intentCalendar);
+                    startActivityForResult(intentCalendar, 1);
                     return true;
                 case R.id.navigation_adding_a_task:
                     Intent intent = EditEventActivity.getStartingIntentAdd(MainActivity.this);
@@ -31,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {return;}
+        long day = data.getLongExtra("day", 1);
+        setDayToShow(day);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,4 +67,16 @@ public class MainActivity extends AppCompatActivity {
                 dayFragment, DayFragment.TAG).commit();
     }
 
+    public void setDayToShow (long day){
+        dayToShow = day;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Fragment dayFragment = DayFragment.newInstance(dayToShow);
+        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
+                dayFragment, DayFragment.TAG).commit();
+    }
 }
