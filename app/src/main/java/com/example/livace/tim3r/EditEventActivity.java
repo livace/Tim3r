@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class EditEventActivity extends AppCompatActivity {
     private static String DATE = EditEventActivity.class.getCanonicalName() + "date";
@@ -81,8 +82,11 @@ public class EditEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EventBuilder eb = new EventBuilder();
 
+                TimeZone timeZone = TimeZone.getDefault();
+                long timeOfTimezone = timeZone.getRawOffset() / (60 * 60 * 1000);
+
                 eb.setTitle(mTitle.getText().toString());
-                long beginHours = Long.valueOf(mBeginHours.getText().toString());
+                long beginHours = Long.valueOf(mBeginHours.getText().toString()) - timeOfTimezone;
                 long beginMinutes = Long.valueOf(mBeginMinutes.getText().toString());
 
                 Log.e("WTF", String.valueOf(beginHours));
@@ -91,7 +95,7 @@ public class EditEventActivity extends AppCompatActivity {
                 eb.setTimeBegin(
                         Utility.getTimeStampFromDateHoursMinutes(mDate, beginHours, beginMinutes)
                 );
-                long endHours = Long.valueOf(mEndHours.getText().toString());
+                long endHours = Long.valueOf(mEndHours.getText().toString()) - timeOfTimezone;
                 long endMinutes = Long.valueOf(mEndMinutes.getText().toString());
 
                 eb.setTimeEnd(
