@@ -40,7 +40,7 @@ public class Event implements Comparable {
         this.title = title;
         this.description = description;
 //        this.image = image;
-        this.date = Utility.getTimeStampFromDate(timeBegin);
+        this.date = Utility.getDayFromTimeStamp(timeBegin);
         this.imageUrl = imageUrl;
         this.city = city;
     }

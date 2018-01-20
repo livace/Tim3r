@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -74,6 +78,7 @@ public class EditEventActivity extends AppCompatActivity {
         } else {
             event = DatabaseFunctions.FindEventById(mEventId);
             mDate = event.getDate();
+
             // TODO: Set text
         }
 
@@ -132,9 +137,63 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     /**
-     * Take care of popping the fragment back stack or finishing the activity
-     * as appropriate.
+     * Initialize the contents of the Activity's standard options menu.  You
+     * should place your menu items in to <var>menu</var>.
+     * <p>
+     * <p>This is only called once, the first time the options menu is
+     * displayed.  To update the menu every time it is displayed, see
+     * {@link #onPrepareOptionsMenu}.
+     * <p>
+     * <p>The default implementation populates the menu with standard system
+     * menu items.  These are placed in the {@link Menu#CATEGORY_SYSTEM} group so that
+     * they will be correctly ordered with application-defined menu items.
+     * Deriving classes should always call through to the base implementation.
+     * <p>
+     * <p>You can safely hold on to <var>menu</var> (and any items created
+     * from it), making modifications to it as desired, until the next
+     * time onCreateOptionsMenu() is called.
+     * <p>
+     * <p>When you add items to the menu, you can implement the Activity's
+     * {@link #onOptionsItemSelected} method to handle them there.
+     *
+     * @param menu The options menu in which you place your items.
+     * @return You must return true for the menu to be displayed;
+     * if you return false it will not be shown.
+     * @see #onPrepareOptionsMenu
+     * @see #onOptionsItemSelected
      */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (this.event == null) {
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.delete, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.e("Menu", "Item Selected");
+        switch (item.getItemId()) {
+            case R.id.menu_item_delete:
+                DatabaseFunctions.removeFromDb(event);
+                onBackPressed();
+                Log.e("Delete", "deleted");
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+            /**
+             * Take care of popping the fragment back stack or finishing the activity
+             * as appropriate.
+             */
+
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
