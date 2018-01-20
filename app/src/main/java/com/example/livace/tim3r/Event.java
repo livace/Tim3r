@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.xml.datatype.Duration;
 
@@ -116,7 +117,10 @@ public class Event implements Comparable {
         Long duration = timeEnd - timeBegin;
         Date durationDate = new Date();
 
-        durationDate.setTime(duration);
+        TimeZone timeZone = TimeZone.getDefault();
+        long timeMinus = - timeZone.getRawOffset();
+
+        durationDate.setTime(duration + timeMinus);
 
         SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat
                 .getTimeInstance(DateFormat.SHORT);
