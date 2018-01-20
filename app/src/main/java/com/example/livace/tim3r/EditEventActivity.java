@@ -83,7 +83,7 @@ public class EditEventActivity extends AppCompatActivity {
 
                 eb.setTitle(mTitle.getText().toString());
                 long beginHours = Long.valueOf(mBeginHours.getText().toString());
-                long beginMinutes = Long.valueOf(mBeginHours.getText().toString());
+                long beginMinutes = Long.valueOf(mBeginMinutes.getText().toString());
 
                 Log.e("WTF", String.valueOf(beginHours));
                 Log.e("WTF", String.valueOf(beginMinutes));
