@@ -35,9 +35,7 @@ public class Utility {
         return result;
     }
     public static long getDayFromTimeStamp(long timeStamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timeStamp);
-        return calendar.get(Calendar.DATE);
+        return timeStamp / (1000 * 60 *60 * 24);
     }
     public static long getTimeStampFromDate(long date) {
         return date * 86400 * 1000;
