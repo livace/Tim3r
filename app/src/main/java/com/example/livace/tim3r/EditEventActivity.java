@@ -80,7 +80,15 @@ public class EditEventActivity extends AppCompatActivity {
             event = DatabaseFunctions.FindEventById(mEventId);
             mDate = event.getDate();
 
-            // TODO: Set text
+
+            mBeginHours.setText(event.getBeginHours());
+            mBeginMinutes.setText(event.getBeginMinutes());
+
+            mEndHours.setText(event.getEndHours());
+            mEndMinutes.setText(event.getEndMinutes());
+
+            mTitle.setText(event.getTitle());
+            mDesc.setText(event.getDescription());
         }
 
         mButton.setOnClickListener(new View.OnClickListener() {

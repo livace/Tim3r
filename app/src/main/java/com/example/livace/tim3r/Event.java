@@ -53,6 +53,7 @@ public class Event implements Comparable {
         return type;
     }
 
+
     public Long getTimeBegin() {
         return timeBegin;
     }
@@ -111,6 +112,33 @@ public class Event implements Comparable {
                 .getTimeInstance(DateFormat.SHORT);
 
         return String.format("%s - %s", format.format(beginDate), format.format(endDate));
+    }
+
+    private String getHours(Long time) {
+        Date date = new Date(time);
+        SimpleDateFormat format = (SimpleDateFormat) new SimpleDateFormat("kk");
+        return format.format(date);
+    }
+
+    private String getMinutes(Long time) {
+        Date date = new Date(time);
+        SimpleDateFormat format = (SimpleDateFormat) new SimpleDateFormat("mm");
+        return format.format(date);
+    }
+
+    public String getBeginHours() {
+        return getHours(timeBegin);
+    }
+    public String getEndHours() {
+        return getHours(timeEnd);
+    }
+
+    public String getBeginMinutes() {
+        return getMinutes(timeBegin);
+    }
+
+    public String getEndMinutes() {
+        return getMinutes(timeEnd);
     }
 
     public String getDurationString() {
