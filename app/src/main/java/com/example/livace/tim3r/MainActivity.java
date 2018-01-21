@@ -8,6 +8,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private long dayToShow;
@@ -26,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(intentCalendar, 1);
                     return true;
                 case R.id.navigation_adding_a_task:
-                    Intent intent = EditEventActivity.getStartingIntentAdd(MainActivity.this);
+                    Intent intent = new Intent(MainActivity.this, EditEventActivity.class);
+                    intent.putExtra("dayToShow", dayToShow);
                     startActivity(intent);
                     return false;
             }
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         Cities.downloadCities(getApplicationContext());
 
         DatabaseFunctions.setContext(getApplicationContext());
+
+        setDayToShow(Utility.getCurrentDate());
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

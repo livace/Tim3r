@@ -55,7 +55,8 @@ public class EditEventActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        mDate = getIntent().getLongExtra(DATE, Utility.getCurrentDate());
+        Intent intent = getIntent();
+        mDate = intent.getLongExtra("dayToShow", 1);
         mEventId = getIntent().getLongExtra(EVENT_ID, -1);
 
         mTitle = (EditText) findViewById(R.id.edit_text_title);
