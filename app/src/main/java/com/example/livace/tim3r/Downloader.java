@@ -60,7 +60,6 @@ public class Downloader extends android.os.AsyncTask<String, Void, String> {
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line).append('\n');
             }
-            is.close();
 
             result = stringBuilder.toString();
         } catch (MalformedURLException e) {

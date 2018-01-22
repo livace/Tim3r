@@ -23,58 +23,105 @@ public class Day {
 
     private final long date;
 
+    private onUpdateListener listener;
+
     public long getDate() {
         return date;
     }
 
-    public Day(long date) {
+    public Day(long date, onUpdateListener listener) {
         this.date = date;
-        loadEvents();
+        this.listener = listener;
+        updateEventsToShow();
+    }
+
+    public void setListener(onUpdateListener listener) {
+        this.listener = listener;
+    }
+
+    private int iteration = 0;
+
+    private void pushEvent(Event event, int iteration) {
+        if (iteration != this.iteration) {
+            return;
+        }
+        eventsToShow.add(event);
+        Collections.sort(eventsToShow);
+        notifyListener();
+    }
+
+    private void updatePromoted(final int iteration) {
+        promotedEvents.clear();
+        Log.e("updatePromoted", "Downloading started");
+        Event.findInApi(1384252440000L,
+                1384292440000L,
+                new Event.onDownloadEventListener() {
+                    @Override
+                    public void onComplete(Event event) {
+                        Log.e("updatePromoted", "Downloading finished");
+                        if (event != null) {
+                            promotedEvents.add(event);
+                            pushEvent(event, iteration);
+                        }
+                    }
+                });
     }
 
     public void updateEventsToShow() {
-        loadEvents();
         eventsToShow.clear();
-        eventsToShow.addAll(events);
-        eventsToShow.addAll(promotedEvents);
-        Collections.sort(eventsToShow);
+
+        iteration++;
+
+        loadEvents(iteration);
+        updatePromoted(iteration);
 
         Log.e("Day", String.valueOf(events.size()) + " + " + String.valueOf(promotedEvents.size())
         + " = " + String.valueOf(eventsToShow.size()));
     }
 
     public ArrayList<Event> getEventsToShow() {
-        updateEventsToShow();
-        Log.e("Day", String.valueOf(eventsToShow.size()));
         return eventsToShow;
+    }
+
+    private void notifyListener() {
+        if (listener != null) {
+            listener.onUpdate();
+        }
     }
 
     public void removeEvent(Event event) {
         DatabaseFunctions.removeFromDb(event);
-        events.add(event);
+        events.remove(event);
     }
 
     public void addEvent(Event event) {
         DatabaseFunctions.saveToDb(event);
-        events.remove(event);
+        pushEvent(event, iteration);
     }
 
-    private void loadEvents() {
+    private void loadEvents(int iteration) {
         events.clear();
         events.addAll(DatabaseFunctions.findInDb(date));
+        for (Event event : events) {
+            pushEvent(event, iteration);
+        }
     }
 
-    public void addPromotedEvent(Event event) {
-        promotedEvents.add(event);
-    }
-
-    public void removePromotedEvent(Event event) {
-        promotedEvents.remove(event);
-    }
+//        public void addPromotedEvent(Event event) {
+//        promotedEvents.add(event);
+//    }
+//
+//    public void removePromotedEvent(Event event) {
+//        promotedEvents.remove(event);
+//    }
 
     @Override
     public int hashCode() {
         return (int) date;
+    }
+
+    interface onUpdateListener {
+        void onUpdate();
     }
 
     public ArrayList<PairLong> FreeTimeIntervals(){

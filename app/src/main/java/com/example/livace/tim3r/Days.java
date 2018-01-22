@@ -10,25 +10,27 @@ import java.util.Map;
 public class Days {
     private final static Map<Long, Day> days = new HashMap<>();
 
-    private static Day createDayFromTimeStamp(long timeStamp) {
+    private static Day createDayFromTimeStamp(long timeStamp, Day.onUpdateListener listener) {
         long date = Utility.getDayFromTimeStamp(timeStamp);
-        return new Day(date);
+        return new Day(date, listener);
     }
 
-    private static Day createDayFromDate(long date) {
-        return new Day(date);
+    private static Day createDayFromDate(long date, Day.onUpdateListener listener) {
+        return new Day(date, listener);
     }
 
-    public static Day getDayFromTimeStamp(long timeStamp) {
+    public static Day getDayFromTimeStamp(long timeStamp, Day.onUpdateListener listener) {
         long date = Utility.getDayFromTimeStamp(timeStamp);
-        return getDayFromDate(date);
+        return getDayFromDate(date, listener);
     }
 
-    public static Day getDayFromDate(long date) {
+    public static Day getDayFromDate(long date, Day.onUpdateListener listener) {
         if (days.containsKey(date)) {
-            return days.get(date);
+            Day day = days.get(date);
+            day.setListener(listener);
+            return day;
         }
-        Day day = createDayFromDate(date);
+        Day day = createDayFromDate(date, listener);
         days.put(date, day);
         return day;
     }

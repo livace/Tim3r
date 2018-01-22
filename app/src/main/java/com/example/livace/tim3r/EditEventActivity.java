@@ -96,11 +96,8 @@ public class EditEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EventBuilder eb = new EventBuilder();
 
-                TimeZone timeZone = TimeZone.getDefault();
-                long timeOfTimezone = timeZone.getRawOffset() / (60 * 60 * 1000);
-
                 eb.setTitle(mTitle.getText().toString());
-                long beginHours = Long.valueOf(mBeginHours.getText().toString()) - timeOfTimezone;
+                long beginHours = Long.valueOf(mBeginHours.getText().toString());
                 long beginMinutes = Long.valueOf(mBeginMinutes.getText().toString());
 
                 Log.e("WTF", String.valueOf(beginHours));
@@ -109,7 +106,7 @@ public class EditEventActivity extends AppCompatActivity {
                 eb.setTimeBegin(
                         Utility.getTimeStampFromDateHoursMinutes(mDate, beginHours, beginMinutes)
                 );
-                long endHours = Long.valueOf(mEndHours.getText().toString()) - timeOfTimezone;
+                long endHours = Long.valueOf(mEndHours.getText().toString());
                 long endMinutes = Long.valueOf(mEndMinutes.getText().toString());
 
                 eb.setTimeEnd(
@@ -122,22 +119,6 @@ public class EditEventActivity extends AppCompatActivity {
 
                 event = eb.build();
 
-//                Toast.makeText(EditEventActivity.this, String.valueOf(event.getTimeBegin()) + " "
-//                        + String.valueOf(event.getTimeEnd()), Toast.LENGTH_SHORT).show();
-
-                Log.e("WTF", "Event time : " + String.valueOf(event.getTimeBegin()) + " "
-                        + String.valueOf(event.getTimeEnd()));
-
-                Date dDate = new Date();
-
-                Log.e("WTF", "Event time: " + SimpleDateFormat
-                        .getDateTimeInstance().format(dDate));
-
-                dDate.setTime(event.getTimeBegin());
-
-                Log.e("WTF", "Event time: " + SimpleDateFormat
-                        .getDateTimeInstance().format(dDate));
-
                 DatabaseFunctions.saveToDb(event);
 
                 onBackPressed();
@@ -145,32 +126,6 @@ public class EditEventActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Initialize the contents of the Activity's standard options menu.  You
-     * should place your menu items in to <var>menu</var>.
-     * <p>
-     * <p>This is only called once, the first time the options menu is
-     * displayed.  To update the menu every time it is displayed, see
-     * {@link #onPrepareOptionsMenu}.
-     * <p>
-     * <p>The default implementation populates the menu with standard system
-     * menu items.  These are placed in the {@link Menu#CATEGORY_SYSTEM} group so that
-     * they will be correctly ordered with application-defined menu items.
-     * Deriving classes should always call through to the base implementation.
-     * <p>
-     * <p>You can safely hold on to <var>menu</var> (and any items created
-     * from it), making modifications to it as desired, until the next
-     * time onCreateOptionsMenu() is called.
-     * <p>
-     * <p>When you add items to the menu, you can implement the Activity's
-     * {@link #onOptionsItemSelected} method to handle them there.
-     *
-     * @param menu The options menu in which you place your items.
-     * @return You must return true for the menu to be displayed;
-     * if you return false it will not be shown.
-     * @see #onPrepareOptionsMenu
-     * @see #onOptionsItemSelected
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (this.event == null) {
@@ -195,13 +150,6 @@ public class EditEventActivity extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
     }
-
-            /**
-             * Take care of popping the fragment back stack or finishing the activity
-             * as appropriate.
-             */
-
-
 
     @Override
     public void onBackPressed() {

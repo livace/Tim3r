@@ -52,15 +52,14 @@ public class DayFragment extends Fragment {
 
     private GestureDetector mDetector;
 
+    private void updateEvents() {
+        mDay.updateEventsToShow();
+    }
+
     @Override
     public void onResume() {
-        Log.e("Fragment", "Was: " + String.valueOf(mEvents.size()));
+        Log.e("Fragment", "onResume");
 
-        mEvents = mDay.getEventsToShow();
-
-        Log.e("Fragment", "Now: " + String.valueOf(mEvents.size()));
-
-        mCustomAdapter.notifyDataSetChanged();
         super.onResume();
     }
 
@@ -113,9 +112,18 @@ public class DayFragment extends Fragment {
         } else {
             mDate = Utility.getCurrentDate();
         }
-        mDay = Days.getDayFromDate(mDate);
+        mCustomAdapter = null;
+        mDay = Days.getDayFromDate(mDate, new Day.onUpdateListener() {
+            @Override
+            public void onUpdate() {
+                if (mCustomAdapter != null) {
+                    mCustomAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         mEvents = mDay.getEventsToShow();
         mCustomAdapter = new DayFragmentAdapter(mEvents);
+        updateEvents();
     }
 
     @Override

@@ -27,11 +27,8 @@ public class EventTypes {
     }
 
     public static EventType getEventTypeById(int id) {
-        Log.e(TAG, String.valueOf(eventTypes));
-
         for (EventType x : eventTypes) {
             if (x.id == id) {
-                Log.e("OKOK", "OK");
                 return x;
             }
         }
