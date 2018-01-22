@@ -96,9 +96,16 @@ public class EditEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EventBuilder eb = new EventBuilder();
 
-                eb.setTitle(mTitle.getText().toString());
-                long beginHours = Long.valueOf(mBeginHours.getText().toString());
-                long beginMinutes = Long.valueOf(mBeginMinutes.getText().toString());
+                String titel = mTitle.getText().toString();
+                if (titel == null) titel = "Untitled task";
+                eb.setTitle(titel);
+
+                long beginHours;
+                long beginMinutes;
+                if (mBeginHours.getText().toString() != null) beginHours = Long.valueOf(mBeginHours.getText().toString());
+                else beginHours = 10;
+                if (mBeginMinutes.getText().toString() != null) beginMinutes = Long.valueOf(mBeginMinutes.getText().toString());
+                else beginMinutes = 0;
 
                 Log.e("WTF", String.valueOf(beginHours));
                 Log.e("WTF", String.valueOf(beginMinutes));
@@ -106,8 +113,13 @@ public class EditEventActivity extends AppCompatActivity {
                 eb.setTimeBegin(
                         Utility.getTimeStampFromDateHoursMinutes(mDate, beginHours, beginMinutes)
                 );
-                long endHours = Long.valueOf(mEndHours.getText().toString());
-                long endMinutes = Long.valueOf(mEndMinutes.getText().toString());
+                
+                long endHours;
+                long endMinutes;
+                if (mEndHours.getText().toString() != null) endHours = Long.valueOf(mEndHours.getText().toString());
+                else endHours = 11;
+                if (mEndMinutes.getText().toString() != null) endMinutes = Long.valueOf(mEndMinutes.getText().toString());
+                else endMinutes = 0;
 
                 eb.setTimeEnd(
                         Utility.getTimeStampFromDateHoursMinutes(mDate, endHours, endMinutes)
