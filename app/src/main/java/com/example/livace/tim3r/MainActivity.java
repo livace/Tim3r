@@ -7,7 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
         setDayToShow(Utility.getCurrentDate());
 
+        Date date = new Date(Utility.getTimeStampFromDate(dayToShow));
+        String myString = DateFormat.getDateInstance(DateFormat.LONG).format(date);
+        TextView showDate = findViewById(R.id.text_view_date);
+        showDate.setText(myString);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -79,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        Date date = new Date(Utility.getTimeStampFromDate(dayToShow));
+        String myString = DateFormat.getDateInstance(DateFormat.LONG).format(date);
+        TextView showDate = findViewById(R.id.text_view_date);
+        showDate.setText(myString);
 
         Fragment dayFragment = DayFragment.newInstance(dayToShow);
         getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
