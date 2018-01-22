@@ -15,7 +15,8 @@ public class EventBuilder {
     private String description = "";
     private String imageUrl;
     private City city;
-    
+    private boolean promoted;
+
     public EventBuilder() {
     }
     
@@ -62,7 +63,8 @@ public class EventBuilder {
                 title,
                 description,
                 imageUrl,
-                city
+                city,
+                promoted
         );
     }
 }
