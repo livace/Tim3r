@@ -16,6 +16,7 @@ public class EventBuilder {
     private String imageUrl;
     private City city;
     private boolean promoted;
+    private long id;
 
     public EventBuilder() {
     }
@@ -55,6 +56,16 @@ public class EventBuilder {
         return this;
     }
 
+    public EventBuilder setPromoted(boolean promoted) {
+        this.promoted = promoted;
+        return this;
+    }
+
+    public EventBuilder setId(long id) {
+        this.id = id;
+        return this;
+    }
+
     public Event build() {
         return new Event(
                 type,
@@ -64,7 +75,8 @@ public class EventBuilder {
                 description,
                 imageUrl,
                 city,
-                promoted
+                promoted,
+                id
         );
     }
 }

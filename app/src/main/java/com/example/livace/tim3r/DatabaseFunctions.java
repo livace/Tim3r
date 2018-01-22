@@ -91,19 +91,21 @@ public class DatabaseFunctions {
         String title = cursor.getString(cursor.getColumnIndex("title"));
 
         String description = cursor.getString(cursor.getColumnIndex("description"));
-        String city = cursor.getString(cursor.getColumnIndex("city"));
+        String citySlug = cursor.getString(cursor.getColumnIndex("city"));
         String imageUrl = cursor.getString(cursor.getColumnIndex("image"));
         Long id = cursor.getLong(cursor.getColumnIndex("id"));
-        City foundCity = Cities.getCityBySlug(city);
-        Event event = new Event(EventTypes.getEventTypeById(type),
-                timeBegin,
-                timeEnd,
-                title,
-                description,
-                imageUrl,
-                foundCity);
+        City city = Cities.getCityBySlug(citySlug);
 
-        event.setId(id);
+        EventBuilder eb = (new EventBuilder())
+                .setTimeBegin(timeBegin)
+                .setTimeEnd(timeEnd)
+                .setTitle(title)
+                .setDescription(description)
+                .setCity(city)
+                .setId(id);
+
+        Event event = eb.build();
+
         return event;
     }
 
