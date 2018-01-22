@@ -35,11 +35,24 @@ public class Utility {
     }
 
     public static long getDayFromTimeStamp(long timeStamp) {
-        return timeStamp / (1000 * 60 * 60 * 24);
+        TimeZone timeZone = TimeZone.getDefault();
+        long timeOfTimezone = timeZone.getRawOffset();
+
+        timeStamp += timeOfTimezone;
+
+        long date = timeStamp / (1000 * 60 * 60 * 24);
+
+        Log.e("getDayFromTimeStamp", "timeStamp " + String.valueOf(timeStamp));
+        Log.e("getDayFromTimeStamp", "date " + String.valueOf(date));
+        Log.e("getDayFromTimeStamp", "timeStamp for date " + String.valueOf(
+                getTimeStampFromDate(date)));
+        return date;
     }
 
     public static long getTimeStampFromDate(long date) {
-        return date * 86400 * 1000;
+        Long timeStamp = date * 86400 * 1000;
+
+        return timeStamp;
     }
 
     public static long getCurrentTime() {
@@ -57,10 +70,6 @@ public class Utility {
 
         Log.e("Date", SimpleDateFormat.getDateTimeInstance().format(dDate));
 
-        TimeZone timeZone = TimeZone.getDefault();
-        long timeOfTimezone = timeZone.getRawOffset() / (60 * 60 * 1000);
-
-        return getTimeStampFromDate(date) + 3600 * 1000 * hours + 60 * 1000 * minutes -
-                timeOfTimezone;
+        return getTimeStampFromDate(date) + 3600 * 1000 * hours + 60 * 1000 * minutes;
     }
 }

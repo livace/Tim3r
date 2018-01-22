@@ -51,20 +51,21 @@ public class Day {
     }
 
     private void updatePromoted(final int iteration) {
-        promotedEvents.clear();
         Log.e("updatePromoted", "Downloading started");
-        Event.findInApi(1384252440000L,
-                1384292440000L,
-                new Event.onDownloadEventListener() {
-                    @Override
-                    public void onComplete(Event event) {
-                        Log.e("updatePromoted", "Downloading finished");
-                        if (event != null) {
-                            promotedEvents.add(event);
-                            pushEvent(event, iteration);
+        for (PairLong x : FreeTimeIntervals()) {
+            Event.findInApi(x.getFirst(),
+                    x.getSecond(),
+                    new Event.onDownloadEventListener() {
+                        @Override
+                        public void onComplete(Event event) {
+                            Log.e("updatePromoted", "Downloading finished");
+                            if (event != null) {
+                                promotedEvents.add(event);
+                                pushEvent(event, iteration);
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     public void updateEventsToShow() {
@@ -124,10 +125,10 @@ public class Day {
         void onUpdate();
     }
 
-    public ArrayList<PairLong> FreeTimeIntervals(){
+    private ArrayList<PairLong> FreeTimeIntervals(){
         ArrayList<PairLong> freeTimeIntervals = new ArrayList<PairLong>();
 
-        Long timeStart = date * 1000 * 60 * 60 * 24;
+        Long timeStart = Utility.getTimeStampFromDate(date);
         for (Event i : this.eventsToShow) {
             PairLong pair = new PairLong();
             pair.setFirst(timeStart);
@@ -139,7 +140,7 @@ public class Day {
 
         PairLong pair = new PairLong();
         pair.setFirst(timeStart);
-        pair.setSecond((date + 1) * 1000 * 60 * 60 * 24 - 1);
+        pair.setSecond(Utility.getTimeStampFromDate(date + 1) - 1);
         if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
 
         return freeTimeIntervals;

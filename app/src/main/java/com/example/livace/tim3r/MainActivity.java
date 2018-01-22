@@ -68,24 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
         //Intent login = new Intent(this, LoginActivity.class);
         //startActivity(login);
-
-        Fragment dayFragment = getFragmentManager().findFragmentById(R.id.fragment_placeholder);
-
-        if (!(dayFragment instanceof DayFragment)) {
-            dayFragment = new DayFragment();
-        }
-
-        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
-                dayFragment, DayFragment.TAG).commit();
     }
 
     public void setDayToShow (long day){
         dayToShow = day;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         Date date = new Date(Utility.getTimeStampFromDate(dayToShow));
         String myString = DateFormat.getDateInstance(DateFormat.LONG).format(date);
@@ -95,5 +81,19 @@ public class MainActivity extends AppCompatActivity {
         Fragment dayFragment = DayFragment.newInstance(dayToShow);
         getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
                 dayFragment, DayFragment.TAG).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (dayToShow == Utility.getCurrentDate()) {
+            super.onBackPressed();
+        } else {
+            setDayToShow(Utility.getCurrentDate());
+        }
     }
 }
