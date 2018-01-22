@@ -1,6 +1,7 @@
 package com.example.livace.tim3r;
 
 import android.util.Log;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,5 +122,26 @@ public class Day {
 
     interface onUpdateListener {
         void onUpdate();
+    }
+
+    public ArrayList<PairLong> FreeTimeIntervals(){
+        ArrayList<PairLong> freeTimeIntervals = new ArrayList<PairLong>();
+
+        Long timeStart = date * 1000 * 60 * 60 * 24;
+        for (Event i : this.eventsToShow) {
+            PairLong pair = new PairLong();
+            pair.setFirst(timeStart);
+            pair.setSecond(i.getTimeBegin());
+            if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
+
+            timeStart = i.getTimeEnd();
+        }
+
+        PairLong pair = new PairLong();
+        pair.setFirst(timeStart);
+        pair.setSecond((date + 1) * 1000 * 60 * 60 * 24 - 1);
+        if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
+
+        return freeTimeIntervals;
     }
 }

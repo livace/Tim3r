@@ -2,6 +2,8 @@ package com.example.livace.tim3r;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseBooleanArray;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +28,6 @@ public class Interests extends AppCompatActivity {
         choiceList = (ListView) findViewById(R.id.listView1);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_multiple_choice, things);
-        // choiceList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         choiceList.setAdapter(adapter);
     }
 }
