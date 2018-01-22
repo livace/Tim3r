@@ -86,6 +86,8 @@ public class Day {
             pair.setFirst(timeStart);
             pair.setSecond(i.getTimeBegin());
             if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
+
+            timeStart = i.getTimeEnd();
         }
 
         PairLong pair = new PairLong();
