@@ -19,9 +19,9 @@ import java.util.TimeZone;
 
 public class Event implements Comparable {
     private static final String API_URL =
-            "https://kudago.com/public-api/v1.3/events/?fields=dates,title," +
+            "https://kudago.com/public-api/v1.3/events/?fields=short_title,dates,title," +
                     "description&text_format=text&actual_since=%d&actual_until=%d&categories" +
-                    "=concert";
+                    "=&location=sochi";
 
     private EventType type;
     private Long timeBegin;
@@ -88,14 +88,14 @@ public class Event implements Comparable {
 
         EventBuilder eb = new EventBuilder();
 
-        String title = eventObject.getString("title");
+        String title = eventObject.getString("short_title");
         eb.setTitle(title);
 
         JSONArray dates = eventObject.getJSONArray("dates");
         JSONObject date = dates.getJSONObject(0);
 
-        Long timeBegin = date.getLong("start");
-        Long timeEnd = date.getLong("end");
+        Long timeBegin = date.getLong("start") * 1000; // API gives milliseconds, need seconds
+        Long timeEnd = date.getLong("end") * 1000;
         eb.setTimeBegin(timeBegin);
         eb.setTimeEnd(timeEnd);
 

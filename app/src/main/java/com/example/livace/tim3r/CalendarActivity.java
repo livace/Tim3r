@@ -38,7 +38,7 @@ public class CalendarActivity  extends AppCompatActivity {
                 long mseconds = calendar.getTimeInMillis();
                // Toast.makeText(getApplicationContext(), String.valueOf(mseconds), Toast.LENGTH_LONG).show();
 
-                returningDate = mseconds / (1000 * 60 * 60 * 24);
+                returningDate = Utility.getDayFromTimeStamp(mseconds);
 
                 Intent intent = new Intent();
                 intent.putExtra("day", returningDate);
