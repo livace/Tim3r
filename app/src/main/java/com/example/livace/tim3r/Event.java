@@ -18,10 +18,15 @@ import java.util.TimeZone;
  */
 
 public class Event implements Comparable {
+//    private static final String API_URL =
+//            "https://kudago.com/public-api/v1.3/events/?fields=short_title,dates,title," +
+//                    "description&text_format=text&actual_since=%d&actual_until=%d&categories" +
+//                    "=&location=sochi";
+//
     private static final String API_URL =
             "https://kudago.com/public-api/v1.3/events/?fields=short_title,dates,title," +
                     "description&text_format=text&actual_since=%d&actual_until=%d&categories" +
-                    "=&location=sochi";
+                    "=concert&location=";
 
     private EventType type;
     private Long timeBegin;
@@ -44,34 +49,18 @@ public class Event implements Comparable {
                  String description,
                  String imageUrl,
                  City city,
-                 boolean promoted) {
+                 boolean promoted,
+                 long id) {
         this.type = type;
         this.timeBegin = timeBegin;
         this.timeEnd = timeEnd;
         this.title = title;
         this.description = description;
-//        this.image = image;
         this.date = Utility.getDayFromTimeStamp(timeBegin);
         this.imageUrl = imageUrl;
         this.city = city;
         this.promoted = promoted;
-    }
-
-    public Event(EventType type,
-                 Long timeBegin,
-                 Long timeEnd,
-                 String title,
-                 String description,
-                 String imageUrl,
-                 City city) {
-        this.type = type;
-        this.timeBegin = timeBegin;
-        this.timeEnd = timeEnd;
-        this.title = title;
-        this.description = description;
-        this.date = Utility.getDayFromTimeStamp(timeBegin);
-        this.imageUrl = imageUrl;
-        this.city = city;
+        this.id = id;
     }
     private static Event parseFromJson(String json) throws JSONException {
         JSONObject mainObject = new JSONObject(json);
@@ -100,6 +89,8 @@ public class Event implements Comparable {
         eb.setTimeEnd(timeEnd);
 
         String desc = eventObject.getString("description");
+
+        eb.setPromoted(true);
 
         eb.setDescription(desc);
 
@@ -170,6 +161,10 @@ public class Event implements Comparable {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean isPromoted() {
+        return promoted;
     }
 
     public void setId(Long id) {

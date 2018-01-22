@@ -1,5 +1,6 @@
 package com.example.livace.tim3r;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,14 +16,20 @@ import java.util.Calendar;
  */
 
 public class CalendarActivity  extends AppCompatActivity {
-    long returningDate;
+    private static String DATE = "date";
+
+    private CalendarView calendarView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_calendar);
 
-        CalendarView calendarView = (CalendarView) findViewById(R.id.calendar_view);
+        long date = getIntent().getLongExtra(DATE, Utility.getCurrentDate());
+
+        calendarView = (CalendarView) findViewById(R.id.calendar_view);
+        calendarView.setDate(Utility.getTimeStampFromDate(date), false, true);
+
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year,
@@ -38,6 +45,7 @@ public class CalendarActivity  extends AppCompatActivity {
                 long mseconds = calendar.getTimeInMillis();
                // Toast.makeText(getApplicationContext(), String.valueOf(mseconds), Toast.LENGTH_LONG).show();
 
+                long returningDate;
                 returningDate = Utility.getDayFromTimeStamp(mseconds);
 
                 Intent intent = new Intent();
@@ -46,5 +54,11 @@ public class CalendarActivity  extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public static Intent getStartingIntent(Context ctx, long date) {
+        Intent intent = new Intent(ctx, CalendarActivity.class);
+        intent.putExtra(DATE, date);
+        return intent;
     }
 }

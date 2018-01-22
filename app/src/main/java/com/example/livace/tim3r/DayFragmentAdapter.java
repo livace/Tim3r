@@ -44,6 +44,7 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
         private TextView textViewTitle;
         private TextView textViewDuration;
         private TextView textViewTime;
+        private TextView textViewPromoted;
 
         private Event event;
 
@@ -53,6 +54,7 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
             textViewTitle = (TextView) itemView.findViewById(R.id.text_view_title);
             textViewDuration = (TextView) itemView.findViewById(R.id.text_view_duration);
             textViewTime = (TextView) itemView.findViewById(R.id.text_view_time);
+            textViewPromoted = (TextView) itemView.findViewById(R.id.text_view_promoted);
         }
 
         public static ViewHolder create(ViewGroup parent, int viewType) {
@@ -65,6 +67,11 @@ public class DayFragmentAdapter extends RecyclerView.Adapter<DayFragmentAdapter.
             textViewTime.setText(data.getTimeString());
             textViewTitle.setText(data.getTitle());
             textViewDuration.setText(data.getDurationString());
+            if (data.isPromoted()) {
+                textViewPromoted.setVisibility(View.VISIBLE);
+            } else {
+                textViewPromoted.setVisibility(View.INVISIBLE);
+            }
             event = data;
         }
 

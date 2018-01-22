@@ -49,18 +49,19 @@
                 android:id="@+id/text_view_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/textView"
                 android:layout_margin="@dimen/margin_normal"
                 android:text="1час"
                 android:textSize="@dimen/text_size_title" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/text_view_promoted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_margin="@dimen/margin_normal"
-                android:text="..."
+                android:text="Promoted"
+                android:background="@color/colorAd"
+                android:padding="@dimen/padding_very_narrow"
                 android:textSize="@dimen/text_size_title" />
         </RelativeLayout>
     </LinearLayout>

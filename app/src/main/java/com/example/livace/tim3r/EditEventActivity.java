@@ -56,7 +56,7 @@ public class EditEventActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        mDate = intent.getLongExtra("dayToShow", 1);
+        mDate = intent.getLongExtra(DATE, Utility.getCurrentDate());
         mEventId = getIntent().getLongExtra(EVENT_ID, -1);
 
         mTitle = (EditText) findViewById(R.id.edit_text_title);
@@ -74,9 +74,7 @@ public class EditEventActivity extends AppCompatActivity {
 
         mButton = (Button) findViewById(R.id.btn_ok);
 
-        if (mEventId == -1) {
-            // TODO: Set current date
-        } else {
+        if (mEventId != -1) {
             event = DatabaseFunctions.FindEventById(mEventId);
             mDate = event.getDate();
 
@@ -106,9 +104,6 @@ public class EditEventActivity extends AppCompatActivity {
                 else beginHours = 10;
                 if (mBeginMinutes.getText().toString() != null) beginMinutes = Long.valueOf(mBeginMinutes.getText().toString());
                 else beginMinutes = 0;
-
-                Log.e("WTF", String.valueOf(beginHours));
-                Log.e("WTF", String.valueOf(beginMinutes));
 
                 eb.setTimeBegin(
                         Utility.getTimeStampFromDateHoursMinutes(mDate, beginHours, beginMinutes)

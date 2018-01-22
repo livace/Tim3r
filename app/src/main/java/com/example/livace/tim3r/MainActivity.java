@@ -21,17 +21,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Intent intent = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_calendar:
-                    Intent intentCalendar = new Intent(MainActivity.this, CalendarActivity.class);
-                    startActivityForResult(intentCalendar, 1);
-                    return true;
+                    intent = CalendarActivity.getStartingIntent(MainActivity.this,
+                            dayToShow);
+                    startActivityForResult(intent, 1);
+                    return false;
                 case R.id.navigation_adding_a_task:
-                    Intent intent = new Intent(MainActivity.this, EditEventActivity.class);
-                    intent.putExtra("dayToShow", dayToShow);
+                    intent = EditEventActivity.getStartingIntentAdd(MainActivity.this, dayToShow);
                     startActivity(intent);
                     return false;
             }
