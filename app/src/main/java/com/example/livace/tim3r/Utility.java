@@ -42,15 +42,15 @@ public class Utility {
 
         long date = timeStamp / (1000 * 60 * 60 * 24);
 
-        Log.e("getDayFromTimeStamp", "timeStamp " + String.valueOf(timeStamp));
-        Log.e("getDayFromTimeStamp", "date " + String.valueOf(date));
-        Log.e("getDayFromTimeStamp", "timeStamp for date " + String.valueOf(
-                getTimeStampFromDate(date)));
         return date;
     }
 
     public static long getTimeStampFromDate(long date) {
         Long timeStamp = date * 86400 * 1000;
+
+        TimeZone timeZone = TimeZone.getDefault();
+        long timeOfTimezone = timeZone.getRawOffset();
+        timeStamp -= timeOfTimezone;
 
         return timeStamp;
     }

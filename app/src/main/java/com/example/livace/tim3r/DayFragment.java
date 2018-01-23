@@ -2,7 +2,6 @@ package com.example.livace.tim3r;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,31 +13,26 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DayFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DayFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DayFragment extends Fragment {
     private static final String DATE = "date";
-
     public static final String TAG = Fragment.class.getCanonicalName();
 
     private Day mDay;
-
     private Long mDate;
+
+    private TextView mToolbarTitle;
+    private Toolbar mToolbar;
+
+    public Long getDate() {
+        return mDate;
+    }
 
     private ArrayList<Event> mEvents;
 
@@ -56,13 +50,6 @@ public class DayFragment extends Fragment {
         mDay.updateEventsToShow();
     }
 
-    @Override
-    public void onResume() {
-        Log.e("Fragment", "onResume");
-
-        super.onResume();
-    }
-
     private GestureDetector.SimpleOnGestureListener mListener = new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -73,10 +60,15 @@ public class DayFragment extends Fragment {
                     RecyclerView.ViewHolder holder =
                             mRecyclerView.findContainingViewHolder(child);
                     if (holder instanceof DayFragmentAdapter.ViewHolder) {
-                        Intent intent = EditEventActivity.getStartingIntentEdit(getActivity(),
-                                ((DayFragmentAdapter.ViewHolder) holder).getEvent());
-
-                        startActivity(intent);
+                        if (((DayFragmentAdapter.ViewHolder) holder).getEvent().isPromoted()) {
+                            Toast.makeText(getActivity(), "Promoted, do smth", Toast.LENGTH_LONG)
+                            .show();
+                            return true;
+                        }
+                        if (getActivity() instanceof MainActivity) {
+                            ((MainActivity) getActivity()).showEditEvent(
+                                    ((DayFragmentAdapter.ViewHolder) holder).getEvent());
+                        }
 
                         return true;
                     }
@@ -99,7 +91,6 @@ public class DayFragment extends Fragment {
         return fragment;
     }
 
-
     public static DayFragment newInstance() {
         return new DayFragment();
     }
@@ -107,11 +98,26 @@ public class DayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mDate = getArguments().getLong(DATE);
         } else {
             mDate = Utility.getCurrentDate();
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_day, container, false);
+//        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        mToolbarTitle = (TextView) view.findViewById(R.id.text_view_toolbar_title);
+
+        String formattedDate = DateFormat.getDateInstance(DateFormat.LONG).format(
+                Utility.getTimeStampFromDate(mDate));
+        mToolbarTitle.setText(formattedDate);
+
         mCustomAdapter = null;
         mDay = Days.getDayFromDate(mDate, new Day.onUpdateListener() {
             @Override
@@ -123,19 +129,13 @@ public class DayFragment extends Fragment {
         });
         mEvents = mDay.getEventsToShow();
         mCustomAdapter = new DayFragmentAdapter(mEvents);
-        updateEvents();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_day, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mRecyclerView.setAdapter(mCustomAdapter);
+
+        updateEvents();
 
         mDetector = new GestureDetector(getActivity(), mListener);
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -14,7 +15,11 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private long dayToShow;
+    private long currentDay;
+
+    private Fragment fragment;
+
+    private BottomNavigationView mNavigation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -24,27 +29,18 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    showFeed(currentDay);
                     return true;
                 case R.id.navigation_calendar:
-                    intent = CalendarActivity.getStartingIntent(MainActivity.this,
-                            dayToShow);
-                    startActivityForResult(intent, 1);
-                    return false;
+                    showCalendar(currentDay);
+                    return true;
                 case R.id.navigation_adding_a_task:
-                    intent = EditEventActivity.getStartingIntentAdd(MainActivity.this, dayToShow);
-                    startActivity(intent);
-                    return false;
+                    showAddEvent(currentDay);
+                    return true;
             }
             return false;
         }
     };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data == null) {return;}
-        long day = data.getLongExtra("day", 1);
-        setDayToShow(day);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,31 +52,59 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseFunctions.setContext(getApplicationContext());
 
-        setDayToShow(Utility.getCurrentDate());
+        mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
+        mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Date date = new Date(Utility.getTimeStampFromDate(dayToShow));
-        String myString = DateFormat.getDateInstance(DateFormat.LONG).format(date);
-        TextView showDate = findViewById(R.id.text_view_date);
-        showDate.setText(myString);
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        //Intent login = new Intent(this, LoginActivity.class);
-        //startActivity(login);
+        showFeed(Utility.getCurrentDate());
     }
 
-    public void setDayToShow (long day){
-        dayToShow = day;
+    public void showFeed(long day) {
+        if (fragment instanceof DayFragment && currentDay == day) {
+            return;
+        }
 
-        Date date = new Date(Utility.getTimeStampFromDate(dayToShow));
-        String myString = DateFormat.getDateInstance(DateFormat.LONG).format(date);
-        TextView showDate = findViewById(R.id.text_view_date);
-        showDate.setText(myString);
+        fragment = DayFragment.newInstance(day);
+        currentDay = day;
 
-        Fragment dayFragment = DayFragment.newInstance(dayToShow);
         getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
-                dayFragment, DayFragment.TAG).commit();
+                fragment, DayFragment.TAG).commit();
+    }
+
+    public void showFeed() {
+        showFeed(currentDay);
+    }
+
+    private void showCalendar(long day) {
+        if (fragment instanceof CalendarFragment) {
+            ((CalendarFragment) fragment).setDay(day);
+            return;
+        }
+
+        fragment = CalendarFragment.newInstance(currentDay);
+        currentDay = day;
+
+        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
+                fragment, CalendarFragment.TAG).commit();
+    }
+
+    private void showAddEvent(long day) {
+        if ((fragment instanceof EditEventFragment) && currentDay == day) {
+            return;
+        }
+
+        fragment = EditEventFragment.newInstance(currentDay);
+        currentDay = day;
+
+        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
+                fragment, EditEventFragment.TAG).commit();
+    }
+
+    public void showEditEvent(Event event) {
+        fragment = EditEventFragment.newInstance(event);
+        currentDay = event.getDate();
+
+        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
+                fragment, EditEventFragment.TAG).commit();
     }
 
     @Override
@@ -90,10 +114,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (dayToShow == Utility.getCurrentDate()) {
+        if ((fragment instanceof DayFragment) && (currentDay == Utility.getCurrentDate())) {
             super.onBackPressed();
         } else {
-            setDayToShow(Utility.getCurrentDate());
+            showFeed(Utility.getCurrentDate());
+            mNavigation.setSelectedItemId(R.id.navigation_home);
         }
+    }
+
+    public void selectHome() {
+        mNavigation.setSelectedItemId(R.id.navigation_home);
+    }
+    public void selectHome(long day) {
+        currentDay = day;
+        mNavigation.setSelectedItemId(R.id.navigation_home);
+    }
+    public void selectCalendar() {
+        mNavigation.setSelectedItemId(R.id.navigation_calendar);
+    }
+    public void selectAdd() {
+        mNavigation.setSelectedItemId(R.id.navigation_adding_a_task);
     }
 }
