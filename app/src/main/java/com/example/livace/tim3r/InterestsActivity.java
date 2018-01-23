@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by Admin on 19.01.2018.
  */
 
-public class Interests extends AppCompatActivity {
+public class InterestsActivity extends AppCompatActivity {
     ListView choiceList;
     TextView selection;
     ArrayList<String> things = new ArrayList<>();
@@ -23,7 +23,7 @@ public class Interests extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.interests);
+        setContentView(R.layout.activity_interests);
 
         ArrayList<EventType> listOfInterests = EventTypes.getEventTypes();
 

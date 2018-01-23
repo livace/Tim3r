@@ -26,7 +26,7 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".Interests" />
+        <activity android:name=".InterestsActivity" />
     </application>
 
 </manifest>

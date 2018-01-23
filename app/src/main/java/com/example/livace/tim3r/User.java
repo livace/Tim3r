@@ -18,6 +18,7 @@ public class User {
     private static String USER_NAME = "userName";
     private static String CITY_SLUG = "citySlug";
     private static String INTERESTS = "interests";
+    private static String LOGGED = ""
 
     private static SharedPreferences preferences = null;
 

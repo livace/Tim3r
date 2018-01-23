@@ -1,17 +1,13 @@
 package com.example.livace.tim3r;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 User.setName(mLogin.getText().toString());
                 User.setCitySlug(Cities.getSlugByName(mCity.getText().toString()));
 
-                Intent intent = new Intent(LoginActivity.this, Interests.class);
+                Intent intent = new Intent(LoginActivity.this, InterestsActivity.class);
                 intent.setFlags(intent.getFlags());
                 startActivity(intent);
             }
