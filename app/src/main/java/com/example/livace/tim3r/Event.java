@@ -62,7 +62,8 @@ public class Event implements Comparable {
         this.promoted = promoted;
         this.id = id;
     }
-    private static Event parseFromJson(String json) throws JSONException {
+    private static Event parseFromJson(final String json, final Long timeBegin, final Long timeEnd)
+            throws JSONException {
         JSONObject mainObject = new JSONObject(json);
 
         int count = mainObject.getInt("count");
@@ -81,10 +82,19 @@ public class Event implements Comparable {
         eb.setTitle(title);
 
         JSONArray dates = eventObject.getJSONArray("dates");
-        JSONObject date = dates.getJSONObject(0);
 
-        Long timeBegin = date.getLong("start") * 1000; // API gives milliseconds, need seconds
-        Long timeEnd = date.getLong("end") * 1000;
+        Long resultTimeBegin = timeEnd;
+        Long resultTimeEnd = timeBegin;
+
+        Log.e("Parse", String.format("Found %d dates", dates.length()));
+
+        for (int i = 0; i < dates.length(); ++i) {
+            JSONObject date = dates.getJSONObject(i);
+            resultTimeBegin = Math.min(date.getLong("start") * 1000, resultTimeBegin);
+            resultTimeEnd = Math.max(date.getLong("end") * 1000, resultTimeEnd);
+            // API gives seconds, need milliseconds
+        }
+
         eb.setTimeBegin(timeBegin);
         eb.setTimeEnd(timeEnd);
 
@@ -97,13 +107,13 @@ public class Event implements Comparable {
         return eb.build();
     }
 
-    public static void findInApi(Long timeBegin,
-                                 Long timeEnd,
+    public static void findInApi(final Long timeBegin,
+                                 final Long timeEnd,
                                  final onDownloadEventListener listener) {
-        timeBegin /= 1000;
-        timeEnd /= 1000; // Time is in milliseconds, api want in seconds
+        final Long askTimeBegin = timeBegin / 1000;
+        final Long askTimeEnd = timeEnd / 1000; // Time is in milliseconds, api want in seconds
 
-        String url = String.format(API_URL, timeBegin, timeEnd);
+        String url = String.format(API_URL, askTimeBegin, askTimeEnd);
 
         final Event[] event = {null};
 
@@ -114,7 +124,7 @@ public class Event implements Comparable {
                     return;
                 }
                 try {
-                    event[0] = Event.parseFromJson(result);
+                    event[0] = Event.parseFromJson(result, timeBegin, timeEnd);
                     if (listener != null) listener.onComplete(event[0]);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -253,6 +263,15 @@ public class Event implements Comparable {
         SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat
                 .getTimeInstance(DateFormat.SHORT);
         return format.format(durationDate);
+    }
+
+    public void saveToDb() {
+        this.promoted = false;
+        DatabaseFunctions.saveToDb(this);
+    }
+
+    public void removeFromDb() {
+        DatabaseFunctions.removeFromDb(this);
     }
 
     interface onDownloadEventListener {
