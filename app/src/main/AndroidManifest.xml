@@ -11,17 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StartActivity"
+        <activity
+            android:name=".StartActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".Settings" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Interests" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".InterestsActivity" />
     </application>
 
 </manifest>
