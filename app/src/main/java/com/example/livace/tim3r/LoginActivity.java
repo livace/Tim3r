@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mCity.setAdapter(adapter);
 
-        mButton = (Button) findViewById(R.id.btn_ok);
+        mButton = (Button) findViewById(R.id.login_btn_ok);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

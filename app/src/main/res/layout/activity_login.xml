@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_wide"
-            android:id="@+id/btn_ok"
+            android:id="@+id/login_btn_ok"
             android:text="@string/btn_ok"
             android:textSize="@dimen/text_size_login_form"
             />

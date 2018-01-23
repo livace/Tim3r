@@ -26,7 +26,7 @@ public class Event implements Comparable {
     private static final String API_URL =
             "https://kudago.com/public-api/v1.3/events/?fields=short_title,dates,title," +
                     "description&text_format=text&actual_since=%d&actual_until=%d&categories" +
-                    "=concert&location=";
+                    "=%s&location=%s";
 
     private EventType type;
     private Long timeBegin;
@@ -111,7 +111,11 @@ public class Event implements Comparable {
         final Long askTimeBegin = timeBegin / 1000;
         final Long askTimeEnd = timeEnd / 1000; // Time is in milliseconds, api want in seconds
 
-        String url = String.format(API_URL, askTimeBegin, askTimeEnd);
+        String url = String.format(API_URL,
+                askTimeBegin,
+                askTimeEnd,
+                User.getInterests(),
+                User.getCitySlug());
 
         final Event[] event = {null};
 

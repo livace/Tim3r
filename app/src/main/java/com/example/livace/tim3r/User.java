@@ -18,7 +18,7 @@ public class User {
     private static String USER_NAME = "userName";
     private static String CITY_SLUG = "citySlug";
     private static String INTERESTS = "interests";
-    private static String LOGGED = ""
+    private static String LOGGED = "logged";
 
     private static SharedPreferences preferences = null;
 
@@ -40,5 +40,29 @@ public class User {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(INTERESTS, value);
         editor.apply();
+    }
+    public static void save() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(LOGGED, true);
+        editor.apply();
+    }
+
+    public static String getName() {
+        return preferences.getString(USER_NAME, "");
+    }
+    public static String getCitySlug() {
+        return preferences.getString(CITY_SLUG, "");
+    }
+    public static String getInterests() {
+        return preferences.getString(INTERESTS, "");
+    }
+
+    public static void log() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(LOGGED, true);
+        editor.apply();
+    }
+    public static boolean isLogged() {
+        return preferences.getBoolean(LOGGED, false);
     }
 }

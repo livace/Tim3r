@@ -23,9 +23,6 @@ import java.text.DateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String APP_PREFERENCES = "AppSettings";
-    private final static String USER_LOGGED = "userLogged";
-
     private long currentDay = Utility.getCurrentDate();
 
     private Fragment fragment;
@@ -71,14 +68,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         mActionBar = getSupportActionBar();
-
-        SharedPreferences firstEnter = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if(!firstEnter.contains(USER_LOGGED)) {
-            SharedPreferences.Editor editor = firstEnter.edit();
-            Toast.makeText(this, "First enter", Toast.LENGTH_LONG).show();
-            editor.putInt(USER_LOGGED, 1);
-            editor.apply();
-        }
 
         EventTypes.downloadEventTypes(getApplicationContext());
         Cities.downloadCities(getApplicationContext());

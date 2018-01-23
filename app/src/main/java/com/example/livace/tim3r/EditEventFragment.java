@@ -94,7 +94,7 @@ public class EditEventFragment extends Fragment {
         mBeginMinutes.setFilters(new InputFilter[]{new MinMaxFilter(0, 59)});
         mEndMinutes.setFilters(new InputFilter[]{new MinMaxFilter(0, 59)});
 
-        mButton = (Button) view.findViewById(R.id.btn_ok);
+        mButton = (Button) view.findViewById(R.id.edit_event_btn_ok);
 
         if (mEventId != -1) {
             event = DatabaseFunctions.FindEventById(mEventId);
