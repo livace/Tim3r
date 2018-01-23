@@ -1,5 +1,7 @@
 package com.example.livace.tim3r;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +11,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -21,13 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private final static String APP_PREFERENCES = "AppSettings";
     private final static String USER_LOGGED = "userLogged";
 
-    private long currentDay;
+    private long currentDay = Utility.getCurrentDate();
 
     private Fragment fragment;
 
     private BottomNavigationView mNavigation;
+    
+    private Toolbar mToolbar;
 
-    private TextView mToolbarTitle;
+    private android.support.v7.app.ActionBar mActionBar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -60,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        mActionBar = getSupportActionBar();
+
         SharedPreferences firstEnter = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if(!firstEnter.contains(USER_LOGGED)) {
             SharedPreferences.Editor editor = firstEnter.edit();
@@ -76,9 +88,7 @@ public class MainActivity extends AppCompatActivity {
         mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        mToolbarTitle = (TextView) findViewById(R.id.text_view_toolbar_title);
-
-        showFeed(Utility.getCurrentDate());
+        showFeed();
     }
 
     public void showFeed(long day) {
@@ -91,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         String formattedDate = DateFormat.getDateInstance(DateFormat.LONG).format(
                 Utility.getTimeStampFromDate(currentDay));
-        mToolbarTitle.setText(formattedDate);
+        mActionBar.setTitle(formattedDate);
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
                 fragment, DayFragment.TAG).commit();
@@ -102,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showCalendar(long day) {
-        mToolbarTitle.setText(R.string.calendar);
+        mActionBar.setTitle(R.string.calendar);
         if (fragment instanceof CalendarFragment) {
             ((CalendarFragment) fragment).setDay(day);
             return;
@@ -116,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAddEvent(long day) {
-        mToolbarTitle.setText(R.string.add_task);
+        mActionBar.setTitle(R.string.add_task);
         if ((fragment instanceof EditEventFragment) && currentDay == day) {
             return;
         }
@@ -129,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showEditEvent(Event event) {
-        mToolbarTitle.setText(R.string.edit_task);
+        mActionBar.setTitle(R.string.edit_task);
         fragment = EditEventFragment.newInstance(event);
         currentDay = event.getDate();
 
