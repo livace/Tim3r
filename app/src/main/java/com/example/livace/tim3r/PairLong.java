@@ -24,7 +24,11 @@ public class PairLong {
         this.first = first;
     }
 
-    public Long Difference(){
+    private Long difference(){
         return this.second - this.first;
+    }
+
+    public boolean hasEnoughTime() {
+        return difference() >= 1000 * 60 * 60;
     }
 }

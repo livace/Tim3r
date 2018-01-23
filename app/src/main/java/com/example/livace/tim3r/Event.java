@@ -265,6 +265,15 @@ public class Event implements Comparable {
         return format.format(durationDate);
     }
 
+    public void saveToDb() {
+        this.promoted = false;
+        DatabaseFunctions.saveToDb(this);
+    }
+
+    public void removeFromDb() {
+        DatabaseFunctions.removeFromDb(this);
+    }
+
     interface onDownloadEventListener {
         void onComplete(Event event);
     }
