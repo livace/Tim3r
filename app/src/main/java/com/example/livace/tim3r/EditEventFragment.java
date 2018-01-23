@@ -85,8 +85,6 @@ public class EditEventFragment extends Fragment {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbarTitle = (TextView) view.findViewById(R.id.text_view_toolbar_title);
 
-        mToolbar.
-
         mTitle = (EditText) view.findViewById(R.id.edit_text_title);
         mDesc = (EditText) view.findViewById(R.id.edit_text_desc);
         mBeginHours = (EditText) view.findViewById(R.id.edit_text_begin_hours);
