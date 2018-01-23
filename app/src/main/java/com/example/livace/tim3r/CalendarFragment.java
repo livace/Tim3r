@@ -93,7 +93,6 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.e("EditEvent", "onCreateOptionsMenu");
         inflater.inflate(R.menu.delete, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }

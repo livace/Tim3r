@@ -96,8 +96,6 @@ public class EditEventFragment extends Fragment {
 
         mButton = (Button) view.findViewById(R.id.btn_ok);
 
-        Log.e("EditEvent", "OnCreate");
-
         if (mEventId != -1) {
             event = DatabaseFunctions.FindEventById(mEventId);
             mDate = event.getDate();
@@ -178,7 +176,9 @@ public class EditEventFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.delete, menu);
+        if (mEventId != -1) {
+            inflater.inflate(R.menu.delete, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 

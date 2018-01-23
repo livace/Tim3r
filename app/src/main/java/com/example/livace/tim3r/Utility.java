@@ -68,8 +68,6 @@ public class Utility {
         Date dDate = new Date();
         dDate.setTime(getTimeStampFromDate(date));
 
-        Log.e("Date", SimpleDateFormat.getDateTimeInstance().format(dDate));
-
         return getTimeStampFromDate(date) + 3600 * 1000 * hours + 60 * 1000 * minutes;
     }
 }

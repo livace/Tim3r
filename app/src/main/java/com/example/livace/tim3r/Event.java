@@ -86,8 +86,6 @@ public class Event implements Comparable {
         Long resultTimeBegin = timeEnd;
         Long resultTimeEnd = timeBegin;
 
-        Log.e("Parse", String.format("Found %d dates", dates.length()));
-
         for (int i = 0; i < dates.length(); ++i) {
             JSONObject date = dates.getJSONObject(i);
             resultTimeBegin = Math.min(date.getLong("start") * 1000, resultTimeBegin);
