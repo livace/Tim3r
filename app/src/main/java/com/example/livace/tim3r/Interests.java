@@ -42,7 +42,6 @@ public class Interests extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                selection.setText("");
                 SparseBooleanArray chosen = ((ListView) parent).getCheckedItemPositions();
                 for (int i = 0; i < chosen.size(); i++) {
                     if (chosen.valueAt(i)) {
