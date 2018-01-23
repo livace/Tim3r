@@ -3,7 +3,6 @@ package com.example.livace.tim3r;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -13,10 +12,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,18 +44,6 @@ public class EditEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
-
-        final String APP_PREFERENCES = "AppSettings";
-        SharedPreferences firstEnter = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        if(!firstEnter.contains("firstEnter")) {
-
-            //To do
-
-            SharedPreferences.Editor editor = firstEnter.edit();
-            String nameOfFirstEnter = "firstEnter";
-            editor.putInt(nameOfFirstEnter, 1);
-            editor.apply();
-        }
 
         ActionBar actionBar = getActionBar();
         if (actionBar == null) {
