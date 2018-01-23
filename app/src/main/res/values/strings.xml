@@ -12,4 +12,19 @@
     <string name="edit_task">Редактирование</string>
     <string name="add_task">Добавление</string>
     <string name="calendar">Календарь</string>
+
+    <string name="add_task_dialog_message">Добавить в свое расписание?</string>
+    <string name="add_task_dialog_yes">Добавить</string>
+    <string name="add_task_dialog_no">Нет</string>
+
+    <string name="edit_event_title">Название…</string>
+    <string name="edit_event_hours_begin">10</string>
+    <string name="edit_event_hours_end">11</string>
+    <string name="edit_event_minutes">00</string>
+    <string name="edit_event_desc">Описание…</string>
+
+    <string name="btn_ok">OK</string>
+
+    <string name="calendar_title">Календарь</string>
+
 </resources>
