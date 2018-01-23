@@ -26,6 +26,7 @@
                 android:layout_toLeftOf="@+id/text_view_time"
                 android:layout_toStartOf="@+id/text_view_time"
                 android:text="Завтрак"
+                android:layout_marginStart="@dimen/margin_normal"
                 android:textSize="@dimen/text_size_title" />
 
             <TextView

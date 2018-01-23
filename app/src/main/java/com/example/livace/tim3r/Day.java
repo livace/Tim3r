@@ -1,13 +1,9 @@
 package com.example.livace.tim3r;
 
 import android.util.Log;
-import android.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,14 +47,12 @@ public class Day {
     }
 
     private void updatePromoted(final int iteration) {
-        Log.e("updatePromoted", "Downloading started");
         for (PairLong x : FreeTimeIntervals()) {
             Event.findInApi(x.getFirst(),
                     x.getSecond(),
                     new Event.onDownloadEventListener() {
                         @Override
                         public void onComplete(Event event) {
-                            Log.e("updatePromoted", "Downloading finished");
                             if (event != null) {
                                 promotedEvents.add(event);
                                 pushEvent(event, iteration);
@@ -75,9 +69,6 @@ public class Day {
 
         loadEvents(iteration);
         updatePromoted(iteration);
-
-        Log.e("Day", String.valueOf(events.size()) + " + " + String.valueOf(promotedEvents.size())
-        + " = " + String.valueOf(eventsToShow.size()));
     }
 
     public ArrayList<Event> getEventsToShow() {
@@ -125,23 +116,29 @@ public class Day {
         void onUpdate();
     }
 
-    private ArrayList<PairLong> FreeTimeIntervals(){
+    private ArrayList<PairLong> FreeTimeIntervals() {
         ArrayList<PairLong> freeTimeIntervals = new ArrayList<PairLong>();
 
-        Long timeStart = Utility.getTimeStampFromDate(date);
+        Long timeStart = Utility.getTimeStampFromDateHoursMinutes(date, 0, 0);
         for (Event i : this.eventsToShow) {
             PairLong pair = new PairLong();
             pair.setFirst(timeStart);
             pair.setSecond(i.getTimeBegin());
             if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
 
-            timeStart = i.getTimeEnd();
+            timeStart = Math.max(timeStart, i.getTimeEnd()); // Хорошо бы сделать так
         }
 
         PairLong pair = new PairLong();
         pair.setFirst(timeStart);
-        pair.setSecond(Utility.getTimeStampFromDate(date + 1) - 1);
+        Long timeEnd = Utility.getTimeStampFromDateHoursMinutes(date, 23, 59);
+        pair.setSecond(timeEnd);
         if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
+
+        for (PairLong x : freeTimeIntervals) {
+            Log.e("FreeTimeIntervals", String.valueOf(x.getFirst()) + ", " + String.valueOf(x
+                    .getSecond()));
+        }
 
         return freeTimeIntervals;
     }
