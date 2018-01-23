@@ -42,8 +42,6 @@ public class DatabaseFunctions {
 
         Long id = db.insert("eventsDatabase", null, values);
 
-        Log.e("Db", "Saved, id = " + String.valueOf(id));
-
         event.setId(id);
 
         db.close();
@@ -77,8 +75,6 @@ public class DatabaseFunctions {
         }
 
         db.close();
-
-        Log.e("Db", "Found " + String.valueOf(events.size()) + "Events");
 
         return events;
     }

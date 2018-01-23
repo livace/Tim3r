@@ -1,6 +1,8 @@
 package com.example.livace.tim3r;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,9 +28,6 @@ public class DayFragment extends Fragment {
 
     private Day mDay;
     private Long mDate;
-
-    private TextView mToolbarTitle;
-    private Toolbar mToolbar;
 
     public Long getDate() {
         return mDate;
@@ -60,14 +59,13 @@ public class DayFragment extends Fragment {
                     RecyclerView.ViewHolder holder =
                             mRecyclerView.findContainingViewHolder(child);
                     if (holder instanceof DayFragmentAdapter.ViewHolder) {
-                        if (((DayFragmentAdapter.ViewHolder) holder).getEvent().isPromoted()) {
-                            Toast.makeText(getActivity(), "Promoted, do smth", Toast.LENGTH_LONG)
-                            .show();
+                        Event event = ((DayFragmentAdapter.ViewHolder) holder).getEvent();
+                        if (event.isPromoted()) {
+                            showAddingDialog(event);
                             return true;
                         }
                         if (getActivity() instanceof MainActivity) {
-                            ((MainActivity) getActivity()).showEditEvent(
-                                    ((DayFragmentAdapter.ViewHolder) holder).getEvent());
+                            ((MainActivity) getActivity()).showEditEvent(event);
                         }
 
                         return true;
@@ -82,6 +80,22 @@ public class DayFragment extends Fragment {
                 }
             };
 
+    public void showAddingDialog(final Event event) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.add_task_dialog_message)
+                .setPositiveButton(R.string.add_task_dialog_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        event.saveToDb();
+                    }
+                })
+                .setNegativeButton(R.string.add_task_dialog_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
+    }
 
     public static DayFragment newInstance(Long date) {
         DayFragment fragment = new DayFragment();
@@ -111,12 +125,6 @@ public class DayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_day, container, false);
-//        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mToolbarTitle = (TextView) view.findViewById(R.id.text_view_toolbar_title);
-
-        String formattedDate = DateFormat.getDateInstance(DateFormat.LONG).format(
-                Utility.getTimeStampFromDate(mDate));
-        mToolbarTitle.setText(formattedDate);
 
         mCustomAdapter = null;
         mDay = Days.getDayFromDate(mDate, new Day.onUpdateListener() {

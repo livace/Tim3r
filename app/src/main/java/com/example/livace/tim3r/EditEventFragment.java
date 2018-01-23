@@ -25,9 +25,6 @@ public class EditEventFragment extends Fragment {
 
     public static String TAG = EditEventFragment.class.getCanonicalName();
 
-    private TextView mToolbarTitle;
-    private Toolbar mToolbar;
-
     private EditText mBeginHours;
     private EditText mEndHours;
     private EditText mBeginMinutes;
@@ -82,8 +79,7 @@ public class EditEventFragment extends Fragment {
             savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_event, container, false);
 
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mToolbarTitle = (TextView) view.findViewById(R.id.text_view_toolbar_title);
+        setHasOptionsMenu(true);
 
         mTitle = (EditText) view.findViewById(R.id.edit_text_title);
         mDesc = (EditText) view.findViewById(R.id.edit_text_desc);
@@ -100,8 +96,6 @@ public class EditEventFragment extends Fragment {
 
         mButton = (Button) view.findViewById(R.id.btn_ok);
 
-        Log.e("EditEvent", "OnCreate");
-
         if (mEventId != -1) {
             event = DatabaseFunctions.FindEventById(mEventId);
             mDate = event.getDate();
@@ -115,9 +109,6 @@ public class EditEventFragment extends Fragment {
 
             mTitle.setText(event.getTitle());
             mDesc.setText(event.getDescription());
-            mToolbarTitle.setText(getString(R.string.edit_task));
-        } else {
-            mToolbarTitle.setText(getString(R.string.add_task));
         }
 
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +163,7 @@ public class EditEventFragment extends Fragment {
 
                 event = eb.build();
 
-                DatabaseFunctions.saveToDb(event);
+                event.saveToDb();
 
                 if (getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).selectHome();
@@ -185,17 +176,17 @@ public class EditEventFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (mEventId != -1) {
+            inflater.inflate(R.menu.delete, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.delete, menu);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_delete:
-                DatabaseFunctions.removeFromDb(event);
+                event.removeFromDb();
                 if (getActivity() instanceof MainActivity) {
                     ((MainActivity) getActivity()).selectHome();
                 }

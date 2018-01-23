@@ -1,25 +1,40 @@
 package com.example.livace.tim3r;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import java.text.DateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    private final static String APP_PREFERENCES = "AppSettings";
+    private final static String USER_LOGGED = "userLogged";
 
-    private long currentDay;
+    private long currentDay = Utility.getCurrentDate();
 
     private Fragment fragment;
 
     private BottomNavigationView mNavigation;
+    
+    private Toolbar mToolbar;
+
+    private android.support.v7.app.ActionBar mActionBar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -27,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Intent intent = null;
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.INPUT_METHOD_SERVICE);
+            if (imm != null && getCurrentFocus() != null) {
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     showFeed(currentDay);
@@ -47,6 +67,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        mActionBar = getSupportActionBar();
+
+        SharedPreferences firstEnter = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        if(!firstEnter.contains(USER_LOGGED)) {
+            SharedPreferences.Editor editor = firstEnter.edit();
+            Toast.makeText(this, "First enter", Toast.LENGTH_LONG).show();
+            editor.putInt(USER_LOGGED, 1);
+            editor.apply();
+        }
+
         EventTypes.downloadEventTypes(getApplicationContext());
         Cities.downloadCities(getApplicationContext());
 
@@ -55,16 +88,20 @@ public class MainActivity extends AppCompatActivity {
         mNavigation = (BottomNavigationView) findViewById(R.id.navigation);
         mNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        showFeed(Utility.getCurrentDate());
+        showFeed();
     }
 
     public void showFeed(long day) {
-        if (fragment instanceof DayFragment && currentDay == day) {
+        if (fragment instanceof DayFragment && ((DayFragment) fragment).getDate() == day) {
             return;
         }
 
         fragment = DayFragment.newInstance(day);
         currentDay = day;
+
+        String formattedDate = DateFormat.getDateInstance(DateFormat.LONG).format(
+                Utility.getTimeStampFromDate(currentDay));
+        mActionBar.setTitle(formattedDate);
 
         getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
                 fragment, DayFragment.TAG).commit();
@@ -75,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showCalendar(long day) {
+        mActionBar.setTitle(R.string.calendar);
         if (fragment instanceof CalendarFragment) {
             ((CalendarFragment) fragment).setDay(day);
             return;
@@ -88,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAddEvent(long day) {
+        mActionBar.setTitle(R.string.add_task);
         if ((fragment instanceof EditEventFragment) && currentDay == day) {
             return;
         }
@@ -100,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showEditEvent(Event event) {
+        mActionBar.setTitle(R.string.edit_task);
         fragment = EditEventFragment.newInstance(event);
         currentDay = event.getDate();
 
@@ -117,8 +157,7 @@ public class MainActivity extends AppCompatActivity {
         if ((fragment instanceof DayFragment) && (currentDay == Utility.getCurrentDate())) {
             super.onBackPressed();
         } else {
-            showFeed(Utility.getCurrentDate());
-            mNavigation.setSelectedItemId(R.id.navigation_home);
+            selectHome(Utility.getCurrentDate());
         }
     }
 

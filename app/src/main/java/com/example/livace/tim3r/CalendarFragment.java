@@ -3,7 +3,10 @@ package com.example.livace.tim3r;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
@@ -49,6 +52,8 @@ public class CalendarFragment extends Fragment {
 
         calendarView = (CalendarView) view.findViewById(R.id.calendar_view);
 
+        calendarView.setDate(Utility.getTimeStampFromDate(mDate));
+
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year,
@@ -84,5 +89,11 @@ public class CalendarFragment extends Fragment {
         args.putLong(DATE, date);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.delete, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

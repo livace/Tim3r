@@ -29,4 +29,20 @@ public class Cities {
         }
         return null;
     }
+
+    public static String getSlugByName(String name) {
+        for (City x : citiesList) {
+            if (x.name.equals(name)) {
+                return x.slug;
+            }
+        }
+        return "";
+    }
+    public static ArrayList<String> getCitiesNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (City city : citiesList) {
+            names.add(city.name);
+        }
+        return names;
+    }
 }

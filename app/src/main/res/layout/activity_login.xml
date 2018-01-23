@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.livace.tim3r.UselessActivity">
+    tools:context="com.example.livace.tim3r.StartActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,8 @@
             android:textSize="@dimen/text_size_login_form"
             android:inputType="text"
             android:singleLine="true"
-            android:layout_margin="@dimen/margin_normal"
+            android:layout_margin="@dimen/margin_wide"
+            android:id="@+id/login"
             />
 
         <AutoCompleteTextView
@@ -36,12 +37,17 @@
             android:textSize="@dimen/text_size_login_form"
             android:inputType="text"
             android:singleLine="true"
-            android:layout_margin="@dimen/margin_normal"
+            android:layout_margin="@dimen/margin_wide"
+            android:id="@+id/city"
             />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_wide"
+            android:id="@+id/btn_ok"
+            android:text="@string/btn_ok"
+            android:textSize="@dimen/text_size_login_form"
             />
 
     </LinearLayout>

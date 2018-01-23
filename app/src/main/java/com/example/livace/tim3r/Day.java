@@ -119,26 +119,21 @@ public class Day {
     private ArrayList<PairLong> FreeTimeIntervals() {
         ArrayList<PairLong> freeTimeIntervals = new ArrayList<PairLong>();
 
-        Long timeStart = Utility.getTimeStampFromDateHoursMinutes(date, 0, 0);
+        Long timeStart = Utility.getTimeStampFromDateHoursMinutes(date, 8, 30);
         for (Event i : this.eventsToShow) {
             PairLong pair = new PairLong();
             pair.setFirst(timeStart);
             pair.setSecond(i.getTimeBegin());
-            if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
+            if (pair.hasEnoughTime()) freeTimeIntervals.add(pair);
 
-            timeStart = Math.max(timeStart, i.getTimeEnd()); // Хорошо бы сделать так
+            timeStart = Math.max(timeStart, i.getTimeEnd());
         }
 
         PairLong pair = new PairLong();
         pair.setFirst(timeStart);
-        Long timeEnd = Utility.getTimeStampFromDateHoursMinutes(date, 23, 59);
+        Long timeEnd = Utility.getTimeStampFromDateHoursMinutes(date, 22, 30);
         pair.setSecond(timeEnd);
-        if (pair.Difference() >= 1000 * 60 * 60) freeTimeIntervals.add(pair);
-
-        for (PairLong x : freeTimeIntervals) {
-            Log.e("FreeTimeIntervals", String.valueOf(x.getFirst()) + ", " + String.valueOf(x
-                    .getSecond()));
-        }
+        if (pair.hasEnoughTime()) freeTimeIntervals.add(pair);
 
         return freeTimeIntervals;
     }

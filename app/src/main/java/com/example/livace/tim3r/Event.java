@@ -86,8 +86,6 @@ public class Event implements Comparable {
         Long resultTimeBegin = timeEnd;
         Long resultTimeEnd = timeBegin;
 
-        Log.e("Parse", String.format("Found %d dates", dates.length()));
-
         for (int i = 0; i < dates.length(); ++i) {
             JSONObject date = dates.getJSONObject(i);
             resultTimeBegin = Math.min(date.getLong("start") * 1000, resultTimeBegin);
@@ -263,6 +261,15 @@ public class Event implements Comparable {
         SimpleDateFormat format = (SimpleDateFormat) SimpleDateFormat
                 .getTimeInstance(DateFormat.SHORT);
         return format.format(durationDate);
+    }
+
+    public void saveToDb() {
+        this.promoted = false;
+        DatabaseFunctions.saveToDb(this);
+    }
+
+    public void removeFromDb() {
+        DatabaseFunctions.removeFromDb(this);
     }
 
     interface onDownloadEventListener {
