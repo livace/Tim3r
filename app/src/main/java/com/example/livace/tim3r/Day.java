@@ -118,8 +118,9 @@ public class Day {
 
     private ArrayList<PairLong> FreeTimeIntervals() {
         ArrayList<PairLong> freeTimeIntervals = new ArrayList<PairLong>();
-
-        Long timeStart = Utility.getTimeStampFromDateHoursMinutes(date, 8, 30);
+        Long timeStart = Math.max(
+                Utility.getTimeStampFromDateHoursMinutes(date, 8, 30),
+                Utility.getCurrentTime());
         for (Event i : this.eventsToShow) {
             PairLong pair = new PairLong();
             pair.setFirst(timeStart);

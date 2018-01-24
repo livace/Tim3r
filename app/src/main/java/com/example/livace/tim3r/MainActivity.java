@@ -3,6 +3,7 @@ package com.example.livace.tim3r;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -80,6 +81,16 @@ public class MainActivity extends AppCompatActivity {
         showFeed();
     }
 
+    private void replaceFragment(Fragment fragment) {
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.slide_up,
+                        R.animator.slide_down,
+                        R.animator.slide_up,
+                        R.animator.slide_down)
+                .replace(R.id.fragment_placeholder, fragment)
+                .commit();
+    }
+
     public void showFeed(long day) {
         if (fragment instanceof DayFragment && ((DayFragment) fragment).getDate() == day) {
             return;
@@ -92,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 Utility.getTimeStampFromDate(currentDay));
         mActionBar.setTitle(formattedDate);
 
-        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
-                fragment, DayFragment.TAG).commit();
+        replaceFragment(fragment);
     }
 
     public void showFeed() {
@@ -110,8 +120,7 @@ public class MainActivity extends AppCompatActivity {
         fragment = CalendarFragment.newInstance(currentDay);
         currentDay = day;
 
-        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
-                fragment, CalendarFragment.TAG).commit();
+        replaceFragment(fragment);
     }
 
     private void showAddEvent(long day) {
@@ -123,8 +132,7 @@ public class MainActivity extends AppCompatActivity {
         fragment = EditEventFragment.newInstance(currentDay);
         currentDay = day;
 
-        getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder,
-                fragment, EditEventFragment.TAG).commit();
+        replaceFragment(fragment);
     }
 
     public void showEditEvent(Event event) {
@@ -143,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.e("Fragment", "OnBackPressed");
         if ((fragment instanceof DayFragment) && (currentDay == Utility.getCurrentDate())) {
             super.onBackPressed();
         } else {

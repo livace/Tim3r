@@ -3,6 +3,7 @@ package com.example.livace.tim3r;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
@@ -41,20 +42,32 @@ public class InterestsActivity extends AppCompatActivity {
 
         mButton = (Button) findViewById(R.id.interests_btn_ok);
 
+        final ArrayList<Boolean> checked = new ArrayList<>();
+
+        for (int i = 0; i < listOfInterests.size(); i++) {
+            checked.add(false);
+        }
+        choiceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                checked.set(position, !checked.get(position));
+            }
+        });
+
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SparseBooleanArray chosen = choiceList.getCheckedItemPositions();
                 StringBuilder stringBuilder = new StringBuilder();
-                for (int i = 0; i < chosen.size(); i++) {
-                    if (chosen.valueAt(i)) {
-                        if (i == 0) {
+                for (int i = 0; i < checked.size(); i++) {
+                    if (checked.get(i)) {
+                        if (stringBuilder.toString().equals("")) {
                             stringBuilder.append(listOfInterests.get(i).slug);
                         } else {
                             stringBuilder.append(",").append(listOfInterests.get(i).slug);
                         }
                     }
                 }
+
                 User.setInterests(stringBuilder.toString());
 
                 User.log();

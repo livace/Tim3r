@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -26,7 +27,7 @@ public class Event implements Comparable {
     private static final String API_URL =
             "https://kudago.com/public-api/v1.3/events/?fields=short_title,dates,title," +
                     "description&text_format=text&actual_since=%d&actual_until=%d&categories" +
-                    "=%s&location=%s";
+                    "=concert&location=%s";
 
     private EventType type;
     private Long timeBegin;
@@ -111,11 +112,18 @@ public class Event implements Comparable {
         final Long askTimeBegin = timeBegin / 1000;
         final Long askTimeEnd = timeEnd / 1000; // Time is in milliseconds, api want in seconds
 
+//        String url = String.format(API_URL,
+//                askTimeBegin,
+//                askTimeEnd,
+//                User.getInterests(),
+//                User.getCitySlug());
+
+
         String url = String.format(API_URL,
                 askTimeBegin,
                 askTimeEnd,
-                User.getInterests(),
-                User.getCitySlug());
+                User.getInterests());
+
 
         final Event[] event = {null};
 

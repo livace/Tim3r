@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_normal"
         android:text="@string/btn_ok"
-        android:textSize="@dimen/text_size_login_form" />
+        android:textSize="@dimen/text_size_login_form"
+        android:theme="@style/PrimaryButton" />
 
 </android.support.constraint.ConstraintLayout>

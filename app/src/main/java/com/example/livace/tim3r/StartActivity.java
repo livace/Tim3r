@@ -26,7 +26,7 @@ public class StartActivity extends AppCompatActivity {
 
         User.init(getApplicationContext());
 
-        if(!User.isLogged()) {
+        if(!User.isLogged() || true) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(intent.getFlags() |
                     Intent.FLAG_ACTIVITY_NO_ANIMATION);

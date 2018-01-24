@@ -28,4 +28,8 @@
     <string name="calendar_title">Календарь</string>
 
     <string name="interests_title">Вас интересует: </string>
+
+    <string name="remove_dialog_message">Удалить из расписания?</string>
+    <string name="remove_dialog_yes">Удалить</string>
+    <string name="remove_dialog_no">Нет</string>
 </resources>
