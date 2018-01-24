@@ -20,38 +20,35 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_wide"
             android:hint="Имя"
-            android:textSize="@dimen/text_size_login_form"
             android:inputType="text"
             android:singleLine="true"
-            android:layout_margin="@dimen/margin_wide"
-            android:id="@+id/login"
-            />
+            android:textSize="@dimen/text_size_login_form" />
 
         <AutoCompleteTextView
+            android:id="@+id/city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_wide"
             android:hint="Город"
-            android:textSize="@dimen/text_size_login_form"
             android:inputType="text"
             android:singleLine="true"
-            android:layout_margin="@dimen/margin_wide"
-            android:id="@+id/city"
-            />
+            android:textSize="@dimen/text_size_login_form" />
 
         <Button
+            android:id="@+id/login_btn_ok"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_wide"
-            android:id="@+id/btn_ok"
             android:text="@string/btn_ok"
             android:textSize="@dimen/text_size_login_form"
-            />
+            android:theme="@style/PrimaryButton" />
 
     </LinearLayout>
-
 
 
 </android.support.constraint.ConstraintLayout>

@@ -27,7 +27,7 @@ public class EventType implements Comparable<EventType>{
         this.slug = slug;
     }
 
-    public static EventType sGetCityFromJson(JSONObject jsonObject) throws JSONException {
+    public static EventType sGetEventTypeFromJson(JSONObject jsonObject) throws JSONException {
         Integer id = Integer.valueOf(jsonObject.getString("id"));
         String name = jsonObject.getString("name");
         String slug = jsonObject.getString("slug");
@@ -38,7 +38,7 @@ public class EventType implements Comparable<EventType>{
         final ArrayList<JSONObject> objects = Utility.arrayListFromString(file);
         final ArrayList<EventType> result = new ArrayList<>();
         for (JSONObject jsonObject : objects) {
-            result.add(sGetCityFromJson(jsonObject));
+            result.add(sGetEventTypeFromJson(jsonObject));
         }
         Collections.sort(result);
         return result;

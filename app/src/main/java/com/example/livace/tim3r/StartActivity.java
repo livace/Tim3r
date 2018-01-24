@@ -26,11 +26,7 @@ public class StartActivity extends AppCompatActivity {
 
         User.init(getApplicationContext());
 
-        if(!preferences.contains(USER_LOGGED) || true) { // TODO: Change
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt(USER_LOGGED, 1);
-            editor.apply();
-
+        if(!User.isLogged() || true) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(intent.getFlags() |
                     Intent.FLAG_ACTIVITY_NO_ANIMATION);

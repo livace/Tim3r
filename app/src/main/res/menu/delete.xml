@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_item_delete"
-        android:title="delete"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:title=""
+        android:icon="@drawable/delete_notification_icon"
         app:showAsAction="always"
         android:orderInCategory="1"/>
 </menu>
